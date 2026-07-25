@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  CURATOR
+  VIEWER
+}
+
+enum MuseumStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ArtifactStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum MediaType {
+  IMAGE
+  AUDIO
+  VIDEO
+  DOCUMENT
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(VIEWER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  artifacts Artifact[] @relation("ArtifactCreatedBy")
+  media     Media[]    @relation("MediaUploadedBy")
+
+  @@map("users")
+}
+
+model Museum {
+  id           String       @id @default(cuid())
+  name         String
+  description  String?
+  address      String?
+  openingHours Json?
+  coverImage   String?
+  status       MuseumStatus @default(ACTIVE)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  galleries Gallery[]
+  artifacts Artifact[]
+
+  @@map("museums")
+}
+
+model Gallery {
+  id          String   @id @default(cuid())
+  museumId    String
+  name        String
+  description String?
+  floor       String?
+  room        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  museum    Museum     @relation(fields: [museumId], references: [id], onDelete: Cascade)
+  artifacts Artifact[]
+
+  @@map("galleries")
+}
+
+model Artifact {
+  id          String         @id @default(cuid())
+  museumId    String
+  galleryId   String?
+  title       String
+  description String?
+  era         String?
+  category    String?
+  status      ArtifactStatus @default(DRAFT)
+  location    String?
+  createdById String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  museum    Museum    @relation(fields: [museumId], references: [id], onDelete: Cascade)
+  gallery   Gallery?  @relation(fields: [galleryId], references: [id], onDelete: SetNull)
+  createdBy User?     @relation("ArtifactCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  media     Media[]
+  qrCode    QrCode?
+  qrScans   QrScan[]
+
+  @@map("artifacts")
+}
+
+model Media {
+  id           String    @id @default(cuid())
+  artifactId   String?
+  url          String
+  type         MediaType
+  filename     String?
+  mimeType     String?
+  size         Int?
+  uploadedById String?
+  createdAt    DateTime  @default(now())
+
+  artifact   Artifact? @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+  uploadedBy User?     @relation("MediaUploadedBy", fields: [uploadedById], references: [id], onDelete: SetNull)
+
+  @@map("media")
+}
+
+model QrCode {
+  id         String   @id @default(cuid())
+  code       String   @unique
+  artifactId String   @unique
+  url        String
+  createdAt  DateTime @default(now())
+
+  artifact Artifact @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+  scans    QrScan[]
+
+  @@map("qr_codes")
+}
+
+model QrScan {
+  id         String   @id @default(cuid())
+  qrCodeId   String
+  artifactId String
+  ipAddress  String?
+  userAgent  String?
+  scannedAt  DateTime @default(now())
+
+  qrCode   QrCode   @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+  artifact Artifact @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+
+  @@map("qr_scans")
+}
