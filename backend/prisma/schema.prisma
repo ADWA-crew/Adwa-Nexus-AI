@@ -32,6 +32,15 @@ enum MediaType {
   DOCUMENT
 }
 
+enum VisitorEventType {
+  SESSION_START
+  ARTIFACT_VIEW
+  QR_SCAN
+  GALLERY_ENTER
+  PERSONALIZATION_UPDATE
+  SESSION_END
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -58,8 +67,10 @@ model Museum {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
-  galleries Gallery[]
-  artifacts Artifact[]
+  galleries        Gallery[]
+  artifacts        Artifact[]
+  visitorSessions  VisitorSession[]
+  researchExhibits ResearchExhibit[]
 
   @@map("museums")
 }
@@ -74,8 +85,9 @@ model Gallery {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  museum    Museum     @relation(fields: [museumId], references: [id], onDelete: Cascade)
-  artifacts Artifact[]
+  museum        Museum         @relation(fields: [museumId], references: [id], onDelete: Cascade)
+  artifacts     Artifact[]
+  visitorEvents VisitorEvent[]
 
   @@map("galleries")
 }
@@ -94,12 +106,13 @@ model Artifact {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
-  museum    Museum    @relation(fields: [museumId], references: [id], onDelete: Cascade)
-  gallery   Gallery?  @relation(fields: [galleryId], references: [id], onDelete: SetNull)
-  createdBy User?     @relation("ArtifactCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-  media     Media[]
-  qrCode    QrCode?
-  qrScans   QrScan[]
+  museum        Museum         @relation(fields: [museumId], references: [id], onDelete: Cascade)
+  gallery       Gallery?       @relation(fields: [galleryId], references: [id], onDelete: SetNull)
+  createdBy     User?          @relation("ArtifactCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  media         Media[]
+  qrCode        QrCode?
+  qrScans       QrScan[]
+  visitorEvents VisitorEvent[]
 
   @@map("artifacts")
 }
@@ -141,9 +154,106 @@ model QrScan {
   ipAddress  String?
   userAgent  String?
   scannedAt  DateTime @default(now())
+  sessionId  Int?
 
-  qrCode   QrCode   @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
-  artifact Artifact @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+  qrCode         QrCode          @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+  artifact       Artifact        @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+  visitorSession VisitorSession? @relation(fields: [sessionId], references: [id])
 
   @@map("qr_scans")
+}
+
+/* Existing table from teammate migrations — do not rename or reshape */
+model VisitorSession {
+  id           Int       @id @default(autoincrement())
+  token        String    @unique
+  museumId     String?
+  language     String    @default("en")
+  interests    String[]  @default([])
+  ageGroup     String?
+  visitGoal    String?
+  fullName     String?
+  visitorType  String?
+  education    String?
+  startedAt    DateTime  @default(now())
+  endedAt      DateTime?
+  lastActiveAt DateTime  @default(now())
+
+  museum        Museum?        @relation(fields: [museumId], references: [id])
+  qrScans       QrScan[]
+  visitorEvents VisitorEvent[]
+
+  @@map("visitor_sessions")
+}
+
+model VisitorEvent {
+  id         Int              @id @default(autoincrement())
+  sessionId  Int
+  type       VisitorEventType
+  artifactId String?
+  galleryId  String?
+  metadata   Json?
+  createdAt  DateTime         @default(now())
+
+  artifact       Artifact?       @relation(fields: [artifactId], references: [id])
+  gallery        Gallery?        @relation(fields: [galleryId], references: [id])
+  visitorSession VisitorSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+  @@index([sessionId, type])
+  @@map("visitor_events")
+}
+
+model TourRoute {
+  id          String   @id
+  slug        String   @unique
+  title       String
+  description String?
+  duration    String?
+  stops       Int      @default(0)
+  profile     String
+  museumId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+
+  @@index([profile])
+  @@map("tour_routes")
+}
+
+model TranslationCache {
+  id             String   @id
+  sourceHash     String
+  sourceText     String
+  sourceLang     String   @default("en")
+  targetLang     String
+  translatedText String
+  model          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime
+
+  @@unique([sourceHash, targetLang])
+  @@map("translation_cache")
+}
+
+/* New — research frontend exhibit content (QR companion page) */
+model ResearchExhibit {
+  id           String   @id @default(cuid())
+  code         String   @unique
+  title        String
+  subtitle     String?
+  era          String?
+  gallery      String?
+  imageUrl     String?
+  paragraphs   Json
+  facts        Json
+  videoUrl     String?
+  videoCaption String?
+  museumId     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  museum Museum? @relation(fields: [museumId], references: [id], onDelete: SetNull)
+
+  @@index([museumId])
+  @@map("research_exhibits")
 }
