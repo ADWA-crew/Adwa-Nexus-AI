@@ -76,3 +76,24 @@ Store `token` in `localStorage.visitorToken` and send `x-visitor-token` on later
 
 - Email: `admin@adwa.nexus`
 - Password: `Admin123!`
+
+## AI Guide (home page)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/ai/languages` | Language options |
+| POST | `/ai/chat` | Text Q&A via **Groq** or **Gemini** |
+| POST | `/ai/voice` | Voice → STT → chat reply |
+
+- Text: `GROQ_API_KEY` **or** `GEMINI_API_KEY`
+- Voice EN/FR/ZH: Groq Whisper (needs Groq)
+- Voice Amharic / Afaan Oromo: **facebook/seamless-m4t-v2-large** via `HF_TOKEN`
+
+### Groq “Verification failed” (Cloudflare)
+Use Gemini instead:
+
+1. [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey) → Create API key  
+2. Set `GEMINI_API_KEY=...` in `backend/.env`  
+3. Restart backend — Adwa Guide text chat works without Groq
+
+The guide card sits at the **bottom-right** of the home page.

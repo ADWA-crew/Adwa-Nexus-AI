@@ -12,6 +12,7 @@ import museumRoutes from './routes/museum.routes.js';
 import routeRoutes from './routes/route.routes.js';
 import analyticsRoutes from './routes/analytics.routes.js';
 import adminRoutes from './routes/admin.routes.js';
+import aiRoutes from './routes/ai.routes.js';
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.use('/api/artifacts', artifactRoutes);
 app.use('/api/routes', routeRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/ai', aiRoutes);
 
 /* Also expose under /api/v1 for consistency */
 app.use('/api/v1/museums', museumRoutes);
@@ -68,6 +70,7 @@ app.use('/api/v1/artifacts', artifactRoutes);
 app.use('/api/v1/routes', routeRoutes);
 app.use('/api/v1/analytics', analyticsRoutes);
 app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/ai', aiRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
