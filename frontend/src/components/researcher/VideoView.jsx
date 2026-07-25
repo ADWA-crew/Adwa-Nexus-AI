@@ -1,42 +1,45 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PlayIcon, TextIcon } from './icons';
 import './VideoView.css';
 
+/* The iframe is mounted only after a press, so the page never pulls
+   YouTube's player until a visitor actually wants the film. */
+const embedUrl = (youtubeId) =>
+  `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`;
+
+const thumbUrl = (youtubeId) =>
+  `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+
+const watchUrl = (youtubeId) => `https://www.youtube.com/watch?v=${youtubeId}`;
+
 export default function VideoView({ exhibit, onRead }) {
-  const videoRef = useRef(null);
   const [started, setStarted] = useState(false);
-  const [failed, setFailed]   = useState(false);
 
-  /* A new exhibit means a fresh poster and a stopped player */
-  useEffect(() => {
-    setStarted(false);
-    setFailed(false);
-    return () => videoRef.current?.pause();
-  }, [exhibit.id]);
-
-  const start = () => {
-    setStarted(true);
-    videoRef.current?.play();
-  };
+  /* A new exhibit returns to the cover */
+  useEffect(() => setStarted(false), [exhibit.id]);
 
   return (
     <div className="vv">
       <div className={`vv__frame${started ? ' vv__frame--live' : ''}`}>
-        <video
-          ref={videoRef}
-          key={exhibit.id}
-          className="vv__video"
-          src={exhibit.videoUrl}
-          poster={exhibit.image || undefined}
-          controls={started}
-          playsInline
-          preload="metadata"
-          onError={() => setFailed(true)}
-          onPause={() => { if (videoRef.current?.ended) setStarted(false); }}
-        />
-
-        {!started && !failed && (
-          <button type="button" className="vv__cover" onClick={start}>
+        {started ? (
+          <iframe
+            key={exhibit.id}
+            className="vv__embed"
+            src={embedUrl(exhibit.youtubeId)}
+            title={`${exhibit.title} — museum film`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        ) : (
+          <button type="button" className="vv__cover" onClick={() => setStarted(true)}>
+            <img
+              className="vv__poster"
+              src={thumbUrl(exhibit.youtubeId)}
+              alt=""
+              loading="lazy"
+            />
+            <span className="vv__scrim" aria-hidden="true" />
             <span className="vv__cover-glow" aria-hidden="true" />
             <span className="vv__play">
               <PlayIcon size={26} />
@@ -47,23 +50,25 @@ export default function VideoView({ exhibit, onRead }) {
             </span>
           </button>
         )}
-
-        {failed && (
-          <div className="vv__error">
-            <p>The film could not be loaded. Please check the connection.</p>
-            <button type="button" className="vv__error-btn" onClick={onRead}>
-              Read the story instead
-            </button>
-          </div>
-        )}
       </div>
 
       <div className="vv__footer">
         <p className="vv__caption">{exhibit.videoCaption}</p>
-        <button type="button" className="vv__read" onClick={onRead}>
-          <TextIcon />
-          Read the transcript
-        </button>
+
+        <div className="vv__actions">
+          <a
+            className="vv__read"
+            href={watchUrl(exhibit.youtubeId)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open on YouTube
+          </a>
+          <button type="button" className="vv__read" onClick={onRead}>
+            <TextIcon />
+            Read the transcript
+          </button>
+        </div>
       </div>
     </div>
   );

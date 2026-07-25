@@ -16,10 +16,30 @@
   border-color: rgba(230, 172, 71, 0.35);
 }
 
-.vv__video {
+.vv__embed {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.vv__poster {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.vv__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 7, 4, 0.4) 0%,
+    rgba(14, 7, 4, 0.72) 60%,
+    rgba(14, 7, 4, 0.92) 100%
+  );
 }
 
 /* ── Cover ─────────────────────────────────────────────── */
@@ -32,23 +52,16 @@
   justify-content: center;
   gap: var(--space-md);
   padding: var(--space-lg);
-  background: linear-gradient(
-    180deg,
-    rgba(14, 7, 4, 0.35) 0%,
-    rgba(14, 7, 4, 0.75) 60%,
-    rgba(14, 7, 4, 0.92) 100%
-  );
+  background: transparent;
   text-align: center;
-  transition: background var(--duration-normal) var(--ease-smooth);
 }
 
-.vv__cover:hover {
-  background: linear-gradient(
-    180deg,
-    rgba(14, 7, 4, 0.25) 0%,
-    rgba(14, 7, 4, 0.7) 60%,
-    rgba(14, 7, 4, 0.9) 100%
-  );
+.vv__scrim {
+  transition: opacity var(--duration-normal) var(--ease-smooth);
+}
+
+.vv__cover:hover .vv__scrim {
+  opacity: 0.82;
 }
 
 .vv__cover-glow {
@@ -95,36 +108,6 @@
   color: var(--cream-primary);
 }
 
-/* ── Error ─────────────────────────────────────────────── */
-.vv__error {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-md);
-  padding: var(--space-lg);
-  text-align: center;
-  background: rgba(14, 7, 4, 0.92);
-}
-
-.vv__error p {
-  font-size: 15px;
-  color: var(--white-70);
-}
-
-.vv__error-btn {
-  padding: 10px 20px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(230, 172, 71, 0.45);
-  background: rgba(230, 172, 71, 0.12);
-  color: #E6AC47;
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 600;
-}
-
 /* ── Footer ────────────────────────────────────────────── */
 .vv__footer {
   display: flex;
@@ -138,6 +121,12 @@
 .vv__caption {
   font-size: 13px;
   color: var(--white-70);
+}
+
+.vv__actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-shrink: 0;
 }
 
 .vv__read {
@@ -164,6 +153,7 @@
   .vv__play      { width: 62px; height: 62px; }
   .vv__cover-text strong { font-size: 17px; }
   .vv__footer    { flex-direction: column; align-items: stretch; }
+  .vv__actions   { flex-direction: column; }
   .vv__read      { justify-content: center; }
 }
 

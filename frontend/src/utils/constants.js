@@ -54,3 +54,30 @@ export const isMinorVisitor = (visitorType, ageGroup) => {
 
 export const getEducationOptions = (visitorType, ageGroup) =>
   isMinorVisitor(visitorType, ageGroup) ? MINOR_EDUCATION : ADULT_EDUCATION;
+
+/* ── Feature switches ────────────────────────────────────
+   QR is the only way into an exhibit for this milestone. The
+   browsing options stay in the codebase behind these flags. */
+
+export const FEATURES = {
+  exhibitPicker: false,
+  manualCode: false,
+};
+
+/* ── Where each profile lands after personalization ──────── */
+
+export const VISITOR_ROUTES = {
+  minor: '/child',
+  research: '/researcher',
+  tourist: '/tourist',
+};
+
+/**
+ * Minors always get the child experience, even when they signed up as a
+ * tourist, so the reading level matches the audience.
+ */
+export const getVisitorRoute = (visitorType, ageGroup) => {
+  if (isMinorVisitor(visitorType, ageGroup)) return VISITOR_ROUTES.minor;
+  if (visitorType === 'research') return VISITOR_ROUTES.research;
+  return VISITOR_ROUTES.tourist;
+};

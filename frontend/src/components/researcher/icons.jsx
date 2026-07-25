@@ -20,6 +20,22 @@ export const ScanIcon = ({ size = 17 }) => (
   </svg>
 );
 
+export const CloseIcon = ({ size = 20 }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} {...base} strokeWidth={2}>
+    <line x1="5" y1="5" x2="19" y2="19" />
+    <line x1="19" y1="5" x2="5" y2="19" />
+  </svg>
+);
+
+export const QrGlyph = ({ size = 60 }) => (
+  <svg viewBox="0 0 48 48" width={size} height={size} {...base} strokeWidth={1.6}>
+    <rect x="5" y="5" width="13" height="13" rx="3" />
+    <rect x="30" y="5" width="13" height="13" rx="3" />
+    <rect x="5" y="30" width="13" height="13" rx="3" />
+    <path d="M30 30h5v5h-5zM38 30h5M30 38h5M38 38h5" />
+  </svg>
+);
+
 export const TextIcon = ({ size = 16 }) => (
   <svg viewBox="0 0 20 20" width={size} height={size} {...base}>
     <line x1="4" y1="5" x2="16" y2="5" />
@@ -69,18 +85,3 @@ export const ArrowRightIcon = ({ size = 15 }) => (
   </svg>
 );
 
-export const CloseIcon = ({ size = 20 }) => (
-  <svg viewBox="0 0 24 24" width={size} height={size} {...base} strokeWidth={2}>
-    <line x1="5" y1="5" x2="19" y2="19" />
-    <line x1="19" y1="5" x2="5" y2="19" />
-  </svg>
-);
-
-export const QrGlyph = ({ size = 60 }) => (
-  <svg viewBox="0 0 48 48" width={size} height={size} {...base} strokeWidth={1.6}>
-    <rect x="5" y="5" width="13" height="13" rx="3" />
-    <rect x="30" y="5" width="13" height="13" rx="3" />
-    <rect x="5" y="30" width="13" height="13" rx="3" />
-    <path d="M30 30h5v5h-5zM38 30h5M30 38h5M38 38h5" />
-  </svg>
-);

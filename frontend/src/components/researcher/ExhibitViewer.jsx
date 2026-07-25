@@ -3,7 +3,7 @@ import FormatTabs from './FormatTabs';
 import TextView from './TextView';
 import AudioNarrator from './AudioNarrator';
 import VideoView from './VideoView';
-import { ScanIcon, SpeakerIcon, TextIcon, VideoIcon } from './icons';
+import { SpeakerIcon, TextIcon, VideoIcon } from './icons';
 import './ExhibitViewer.css';
 
 const FORMATS = [
@@ -12,11 +12,11 @@ const FORMATS = [
   { id: 'video', label: 'Watch',  hint: 'Short film', Icon: VideoIcon },
 ];
 
-export default function ExhibitViewer({ exhibit, onScanAnother }) {
-  const [format, setFormat] = useState('text');
+export default function ExhibitViewer({ exhibit, simple = false, startWith = 'text' }) {
+  const [format, setFormat] = useState(startWith);
 
-  /* Every new scan opens on the written story */
-  useEffect(() => setFormat('text'), [exhibit.id]);
+  /* Every new exhibit opens on this profile's preferred format */
+  useEffect(() => setFormat(startWith), [exhibit.id, startWith]);
 
   return (
     <article className="ev">
@@ -39,11 +39,6 @@ export default function ExhibitViewer({ exhibit, onScanAnother }) {
           <h2 className="ev__title">{exhibit.title}</h2>
           <p className="ev__subtitle">{exhibit.subtitle}</p>
         </div>
-
-        <button type="button" className="ev__rescan" onClick={onScanAnother}>
-          <ScanIcon size={15} />
-          Scan another
-        </button>
       </header>
 
       {/* ── Format switch ───────────────────────────────── */}
@@ -58,10 +53,18 @@ export default function ExhibitViewer({ exhibit, onScanAnother }) {
         aria-labelledby={`fmt-tab-${format}`}
       >
         {format === 'text' && (
-          <TextView exhibit={exhibit} onListen={() => setFormat('audio')} />
+          <TextView
+            exhibit={exhibit}
+            simple={simple}
+            onListen={() => setFormat('audio')}
+          />
         )}
         {format === 'audio' && (
-          <AudioNarrator exhibit={exhibit} onRead={() => setFormat('text')} />
+          <AudioNarrator
+            exhibit={exhibit}
+            simple={simple}
+            onRead={() => setFormat('text')}
+          />
         )}
         {format === 'video' && (
           <VideoView exhibit={exhibit} onRead={() => setFormat('text')} />
