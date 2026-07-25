@@ -1,0 +1,137 @@
+.about-museums {
+  min-height: 100vh;
+  color: var(--cream-primary);
+  background: #0e0704;
+}
+
+.am-top {
+  position: relative;
+  min-height: 42vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.am-top__img,
+.am-top__veil {
+  position: absolute;
+  inset: 0;
+}
+
+.am-top__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.am-top__veil {
+  background: linear-gradient(
+    180deg,
+    rgba(14, 7, 4, 0.25) 0%,
+    rgba(14, 7, 4, 0.88) 100%
+  );
+}
+
+.am-top__inner {
+  position: relative;
+  z-index: 1;
+  padding: 6.5rem 1.5rem 2rem;
+  max-width: 720px;
+}
+
+.am-label {
+  color: var(--gold-primary);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.am-top h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.am-body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4.5rem;
+}
+
+.am-block + .am-block {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.am-block h2 {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 600;
+  margin-bottom: 0.85rem;
+  color: var(--gold-bright);
+}
+
+.am-block > p {
+  color: var(--cream-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.am-block > p + p {
+  margin-top: 0.85rem;
+}
+
+.am-lead {
+  color: var(--cream-primary) !important;
+  font-family: var(--font-display);
+  font-size: 1.2rem !important;
+  line-height: 1.55 !important;
+}
+
+.am-block--highlight {
+  padding: 1.4rem 1.35rem;
+  border-radius: 12px;
+  background: rgba(212, 168, 67, 0.06);
+  border: 1px solid rgba(212, 168, 67, 0.16);
+}
+
+.am-block + .am-block--highlight {
+  border-top: 1px solid rgba(212, 168, 67, 0.16);
+  padding-top: 1.4rem;
+}
+
+.am-note {
+  margin-bottom: 1.25rem !important;
+  font-size: 0.95rem !important;
+}
+
+.am-treaties {
+  list-style: none;
+  display: grid;
+  gap: 1.25rem;
+  padding: 0;
+}
+
+.am-treaties h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--cream-primary);
+}
+
+.am-treaties h3 span {
+  color: var(--gold-primary);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.am-treaties p {
+  color: var(--cream-muted);
+  line-height: 1.6;
+  font-size: 0.98rem;
+}

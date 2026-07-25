@@ -1,13 +1,14 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import LanguageSelect from '../common/LanguageSelect';
 import { useLanguage } from '../../hooks/useLanguage';
 import './Navbar.css';
 
 const NAV_LINKS = [
-  { label: 'Home',      href: '#home' },
-  { label: 'Museums',   href: '#museums' },
-  { label: 'Artifacts', href: '#artifacts' },
-  { label: 'Routes',    href: '#routes' },
+  { label: 'Home', href: '/' },
+  { label: 'Museums', href: '/museums' },
+  { label: 'Start journey', href: '/start-journey' },
+  { label: 'Research', href: '/researcher' },
 ];
 
 const MountainLogo = () => (
@@ -52,7 +53,8 @@ const MenuIcon = ({ open }) => (
 export default function Navbar() {
   const [scrolled, setScrolled]     = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState('Home');
+  const location = useLocation();
+  const activeHref = location.pathname;
 
   const { setLanguage, activeLanguage, languages } = useLanguage();
 
@@ -74,30 +76,26 @@ export default function Navbar() {
       <div className="navbar__inner">
 
         {/* ── Logo ── */}
-        <a href="#home" className="nav-logo" aria-label="Adwa Nexus — home">
+        <Link to="/" className="nav-logo" aria-label="Adwa Nexus — home">
           <MountainLogo />
           <span className="nav-logo__text">
             Adwa <em>Nexus</em>
           </span>
-        </a>
+        </Link>
 
-        {/* ── Desktop nav links ── */}
-        {/* Logic stays intact; links stay hidden while the hero fills the viewport */}
         <nav
-          className={`nav-links${scrolled ? '' : ' nav-links--hidden'}`}
+          className={`nav-links${scrolled || location.pathname !== '/' ? '' : ' nav-links--hidden'}`}
           aria-label="Primary navigation"
-          aria-hidden={!scrolled}
         >
           {NAV_LINKS.map(({ label, href }) => (
-            <a
+            <Link
               key={label}
-              href={href}
-              className={`nav-links__item${activeLink === label ? ' nav-links__item--active' : ''}`}
-              onClick={() => setActiveLink(label)}
+              to={href}
+              className={`nav-links__item${activeHref === href ? ' nav-links__item--active' : ''}`}
             >
               {label}
               <span className="nav-links__underline" aria-hidden="true" />
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -121,14 +119,14 @@ export default function Navbar() {
       <div className={`nav-mobile${mobileOpen ? ' nav-mobile--open' : ''}`} aria-hidden={!mobileOpen}>
         <nav className="nav-mobile__links" aria-label="Mobile navigation">
           {NAV_LINKS.map(({ label, href }) => (
-            <a
+            <Link
               key={label}
-              href={href}
-              className={`nav-mobile__item${activeLink === label ? ' nav-mobile__item--active' : ''}`}
-              onClick={() => { setActiveLink(label); setMobileOpen(false); }}
+              to={href}
+              className={`nav-mobile__item${activeHref === href ? ' nav-mobile__item--active' : ''}`}
+              onClick={() => setMobileOpen(false)}
             >
               {label}
-            </a>
+            </Link>
           ))}
         </nav>
 
