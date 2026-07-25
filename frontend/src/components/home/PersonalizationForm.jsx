@@ -1,4 +1,5 @@
 ﻿import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import GlassSelect from '../common/GlassSelect';
 import { useVisitor } from '../../hooks/useVisitor';
 import { visitorService } from '../../services/visitor.service';
@@ -53,6 +54,7 @@ export default function PersonalizationForm() {
   const [result, setResult] = useState(null);
 
   const { startSession } = useVisitor();
+  const navigate = useNavigate();
 
   const needsAge = form.visitorType === 'tourist';
   /* Tourists must pick an age before the education options can be resolved */
@@ -123,7 +125,9 @@ export default function PersonalizationForm() {
       });
       startSession(session);
       setResult(session);
-    } catch {
+      navigate(session.redirectTo || '/profile', { replace: false });
+    } catch (err) {
+      console.error('Start journey failed:', err?.response?.data || err);
       setSubmitError('We could not start your journey. Please try again.');
     } finally {
       setSubmitting(false);

@@ -1,4 +1,4 @@
-﻿import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import adwaHero from '../../assets/images/heroes/adwa_hero.png';
 import './HeroSection.css';
 

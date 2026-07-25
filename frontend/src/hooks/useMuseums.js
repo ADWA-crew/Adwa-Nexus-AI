@@ -7,8 +7,9 @@ export const useMuseums = (params) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    museumService.getAll(params)
-      .then((res) => setMuseums(res.data))
+    museumService
+      .getAll(params)
+      .then((data) => setMuseums(Array.isArray(data) ? data : []))
       .catch(setError)
       .finally(() => setLoading(false));
   }, []);
