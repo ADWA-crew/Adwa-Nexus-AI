@@ -1,5 +1,5 @@
 /* ============================================================
-   QR SCANNER — glass modal over the researcher page
+   QR SCANNER — glass modal with a gold framing reticle
    ============================================================ */
 
 .qr-overlay {
@@ -56,7 +56,7 @@
 
 .qr-panel__close:hover {
   background: var(--white-12);
-  color: var(--gold-bright);
+  color: #E6AC47;
 }
 
 /* ── Camera stage ──────────────────────────────────────── */

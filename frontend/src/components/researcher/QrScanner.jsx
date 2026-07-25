@@ -3,11 +3,11 @@ import { CloseIcon } from './icons';
 import './QrScanner.css';
 
 /* Native detector — no extra dependency. Unsupported browsers
-   (Safari, Firefox) fall back to the code field on the page. */
+   (Safari, Firefox) are told to open the tour in Chrome or Edge. */
 const detectorSupported = () =>
   typeof window !== 'undefined' && 'BarcodeDetector' in window;
 
-/* Ignore the same code for a moment so a rejected scan can retry */
+/* Ignore the same code briefly so a rejected scan can be retried */
 const REPEAT_DELAY = 2500;
 
 export default function QrScanner({ notice, onScan, onClose }) {
@@ -92,8 +92,8 @@ export default function QrScanner({ notice, onScan, onClose }) {
         setStatus('error');
         setMessage(
           error?.name === 'NotAllowedError'
-            ? 'Camera permission was denied. Allow access, or type the exhibit code on the page.'
-            : 'No camera is available on this device. Type the exhibit code on the page instead.'
+            ? 'Camera permission was denied. Allow camera access and press Scan again.'
+            : 'No camera is available on this device.'
         );
       }
     };
@@ -137,13 +137,16 @@ export default function QrScanner({ notice, onScan, onClose }) {
           )}
         </div>
 
-        <p className={`qr-panel__status${notice ? ' qr-panel__status--warn' : ''}`} role="status">
+        <p
+          className={`qr-panel__status${notice ? ' qr-panel__status--warn' : ''}`}
+          role="status"
+        >
           {notice || (
             <>
               {status === 'starting' && 'Waking up the camera…'}
               {status === 'scanning' && 'Hold the exhibit QR code inside the frame.'}
               {status === 'unsupported' &&
-                'This browser cannot scan QR codes. Use Chrome or Edge, or type the exhibit code on the page.'}
+                'This browser cannot scan QR codes. Please open the tour in Chrome or Edge.'}
               {status === 'error' && message}
             </>
           )}
