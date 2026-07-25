@@ -1,0 +1,278 @@
+/* ============================================================
+   NAVBAR — Glassmorphism Transparent Navigation
+   ============================================================ */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 40px;
+  transition:
+    background var(--duration-normal) var(--ease-smooth),
+    backdrop-filter var(--duration-normal) var(--ease-smooth),
+    box-shadow var(--duration-normal) var(--ease-smooth),
+    padding var(--duration-normal) var(--ease-smooth);
+}
+
+/* Scrolled state — denser glass */
+.navbar--scrolled {
+  background: rgba(10, 6, 3, 0.75);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow: 0 1px 0 rgba(212, 168, 67, 0.15),
+              0 4px 32px rgba(0, 0, 0, 0.50);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 80px;
+  width: 100%;
+}
+
+/* ── Logo ──────────────────────────────────────────────── */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: opacity var(--duration-fast) var(--ease-smooth);
+}
+
+.nav-logo:hover {
+  opacity: 0.85;
+}
+
+.nav-logo__icon {
+  width: 36px;
+  height: 30px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(212, 168, 67, 0.40));
+}
+
+.nav-logo__text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--cream-primary);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.nav-logo__text em {
+  font-style: normal;
+  color: var(--gold-bright);
+}
+
+/* ── Desktop nav links ─────────────────────────────────── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+  transition:
+    opacity var(--duration-normal) var(--ease-smooth),
+    transform var(--duration-normal) var(--ease-smooth),
+    visibility var(--duration-normal) var(--ease-smooth);
+}
+
+.nav-links__item {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--white-70);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.nav-links__item:hover {
+  color: var(--cream-primary);
+}
+
+.nav-links__item--active {
+  color: var(--gold-bright);
+}
+
+.nav-links__underline {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold-bright);
+  transition: width var(--duration-normal) var(--ease-smooth);
+}
+
+.nav-links__item--active .nav-links__underline,
+.nav-links__item:hover .nav-links__underline {
+  width: calc(100% - 28px);
+}
+
+/* Hidden over the hero — stays in the flex flow so the language
+   selector keeps its top-right position, and no state is lost */
+.nav-links--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+}
+
+/* ── Actions ───────────────────────────────────────────── */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* Language selector styles now live in components/common/LanguageSelect.css */
+
+/* Hamburger button */
+.nav-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--white-06);
+  border: 1px solid var(--white-12);
+  color: var(--cream-primary);
+  cursor: pointer;
+  transition: background var(--duration-fast);
+}
+
+.nav-hamburger:hover {
+  background: var(--white-12);
+}
+
+/* ── Mobile menu ───────────────────────────────────────── */
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 6, 3, 0.97);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 100px 32px 48px;
+  z-index: 999;
+  transform: translateX(100%);
+  transition: transform var(--duration-slow) var(--ease-smooth);
+}
+
+.nav-mobile--open {
+  transform: translateX(0);
+}
+
+.nav-mobile__links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.nav-mobile__item {
+  display: block;
+  padding: 18px 0;
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--white-70);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: color var(--duration-fast);
+}
+
+.nav-mobile__item:hover,
+.nav-mobile__item--active {
+  color: var(--gold-bright);
+}
+
+.nav-mobile__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 32px;
+}
+
+.nav-mobile__lang {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nav-mobile__lang-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--white-12);
+  background: var(--white-06);
+  color: var(--white-70);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.nav-mobile__lang-btn:hover {
+  background: var(--white-12);
+  color: var(--cream-primary);
+}
+
+.nav-mobile__lang-btn--active {
+  background: rgba(212, 168, 67, 0.15);
+  border-color: rgba(212, 168, 67, 0.40);
+  color: var(--gold-bright);
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 0 24px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .nav-mobile {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .navbar__inner {
+    height: 68px;
+    gap: 16px;
+  }
+}

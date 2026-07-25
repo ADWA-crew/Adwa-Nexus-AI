@@ -1,0 +1,438 @@
+/* ============================================================
+   PERSONALIZATION FORM — Glassmorphic panel
+   ============================================================ */
+
+.pf-panel {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  /* Vertical rhythm tracks viewport height so the tallest form state
+     (Tourist, with age and education revealed) fits without scrolling */
+  padding: clamp(22px, 3.4vh, 36px) clamp(22px, 2.4vw, 36px);
+  background: rgba(14, 8, 3, 0.55);
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border: 1px solid rgba(212, 168, 67, 0.20);
+  border-radius: 24px;
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.55),
+    0 4px 20px rgba(0, 0, 0, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition:
+    border-color var(--duration-normal) var(--ease-smooth),
+    box-shadow var(--duration-normal) var(--ease-smooth),
+    transform var(--duration-normal) var(--ease-smooth);
+  animation: pfPanelIn 0.7s var(--ease-smooth) both;
+}
+
+.pf-panel:hover {
+  border-color: rgba(212, 168, 67, 0.38);
+  box-shadow:
+    0 40px 96px rgba(0, 0, 0, 0.62),
+    0 0 40px rgba(212, 168, 67, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  transform: translateY(-2px);
+}
+
+/* Gold shimmer along the top edge */
+.pf-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 18%;
+  right: 18%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212, 168, 67, 0.55), transparent);
+}
+
+@keyframes pfPanelIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.pf-header {
+  margin-bottom: clamp(14px, 2.4vh, 28px);
+  padding-bottom: clamp(12px, 2vh, 22px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.pf-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-primary);
+  margin-bottom: clamp(6px, 1.1vh, 12px);
+}
+
+.pf-title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.6vw, 31px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--cream-primary);
+  margin-bottom: clamp(5px, 0.9vh, 10px);
+}
+
+.pf-subtitle {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--cream-faint);
+}
+
+/* ── Fields ─────────────────────────────────────────────── */
+.pf-fields {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(11px, 1.9vh, 20px);
+}
+
+.pf-field {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5px, 0.9vh, 9px);
+}
+
+/* Conditional fields ease in rather than snapping */
+.pf-field--reveal {
+  animation: pfReveal 0.45s var(--ease-smooth) both;
+}
+
+@keyframes pfReveal {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pf-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cream-faint);
+}
+
+.pf-required {
+  color: var(--gold-primary);
+  margin-left: 2px;
+}
+
+/* Text input */
+.pf-input {
+  width: 100%;
+  padding: clamp(10px, 1.5vh, 14px) 16px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--cream-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+}
+
+.pf-input::placeholder {
+  color: rgba(196, 176, 138, 0.55);
+}
+
+.pf-input:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(212, 168, 67, 0.35);
+  transform: translateY(-1px);
+}
+
+.pf-input:focus {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(212, 168, 67, 0.60);
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.16);
+}
+
+.pf-input--invalid {
+  border-color: rgba(224, 122, 95, 0.55);
+}
+
+.pf-input--invalid:focus {
+  box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.18);
+}
+
+/* ── Segmented age control ──────────────────────────────── */
+.pf-segment {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.pf-segment__btn {
+  padding: clamp(10px, 1.4vh, 13px) 16px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--cream-muted);
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-bounce);
+}
+
+.pf-segment__btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(212, 168, 67, 0.35);
+  color: var(--cream-primary);
+  transform: translateY(-2px);
+}
+
+.pf-segment__btn:focus-visible {
+  outline: none;
+  border-color: rgba(212, 168, 67, 0.60);
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.16);
+}
+
+.pf-segment__btn--active {
+  background: rgba(212, 168, 67, 0.16);
+  border-color: rgba(212, 168, 67, 0.50);
+  color: var(--gold-bright);
+  font-weight: 600;
+}
+
+/* ── Errors ─────────────────────────────────────────────── */
+.pf-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: #E07A5F;
+}
+
+.pf-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: var(--radius-md);
+  background: rgba(224, 122, 95, 0.12);
+  border: 1px solid rgba(224, 122, 95, 0.32);
+  color: #E9A08C;
+  font-size: 13.5px;
+}
+
+/* ── Footer / submit ────────────────────────────────────── */
+.pf-footer {
+  margin-top: clamp(14px, 2.4vh, 28px);
+  padding-top: clamp(13px, 2.2vh, 24px);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.pf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  padding: clamp(11px, 1.7vh, 15px) 28px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--duration-fast) var(--ease-bounce),
+    box-shadow var(--duration-fast) var(--ease-smooth),
+    opacity var(--duration-fast);
+}
+
+.pf-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.pf-btn--primary {
+  background: linear-gradient(135deg, #D4A843 0%, #C9A453 50%, #A07830 100%);
+  color: #1A0800;
+  box-shadow: 0 6px 28px rgba(212, 168, 67, 0.28), 0 2px 8px rgba(0, 0, 0, 0.30);
+}
+
+.pf-btn--primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(212, 168, 67, 0.42), 0 4px 12px rgba(0, 0, 0, 0.40);
+}
+
+.pf-btn--primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.pf-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.35), 0 6px 28px rgba(212, 168, 67, 0.28);
+}
+
+.pf-btn:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
+/* Ghost button — used by the confirmation state */
+.pf-btn--ghost {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--cream-primary);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.pf-btn--ghost:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(212, 168, 67, 0.35);
+}
+
+/* ── Confirmation state ─────────────────────────────────── */
+.pf-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(10px, 1.6vh, 16px);
+  animation: pfReveal 0.5s var(--ease-smooth) both;
+}
+
+.pf-done__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(212, 168, 67, 0.14);
+  border: 1px solid rgba(212, 168, 67, 0.36);
+  color: var(--gold-bright);
+  margin-bottom: 2px;
+}
+
+.pf-done__title {
+  font-family: var(--font-display);
+  font-size: clamp(21px, 2.4vw, 27px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--cream-primary);
+}
+
+.pf-done__text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--cream-muted);
+  max-width: 380px;
+}
+
+.pf-done__meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  margin: clamp(4px, 1vh, 10px) 0;
+}
+
+.pf-done__meta > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: clamp(10px, 1.5vh, 14px) 8px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.pf-done__meta dt {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--cream-faint);
+}
+
+.pf-done__meta dd {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold-bright);
+  text-transform: capitalize;
+}
+
+/* Spinner */
+.pf-spinner {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(26, 8, 0, 0.30);
+  border-top-color: #1A0800;
+  animation: pfSpin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pfSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .pf-panel {
+    max-width: 100%;
+    padding: 34px 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pf-panel {
+    padding: 26px 20px;
+    border-radius: 20px;
+  }
+
+  .pf-panel:hover {
+    transform: none;
+  }
+
+  .pf-header {
+    margin-bottom: 26px;
+    padding-bottom: 20px;
+  }
+
+  .pf-fields {
+    gap: 18px;
+  }
+
+  .pf-segment {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-panel,
+  .pf-field--reveal {
+    animation: none;
+  }
+
+  .pf-panel:hover,
+  .pf-input:hover,
+  .pf-segment__btn:hover,
+  .pf-btn--primary:hover:not(:disabled) {
+    transform: none;
+  }
+}

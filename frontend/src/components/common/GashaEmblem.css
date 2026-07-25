@@ -1,0 +1,175 @@
+/* ============================================================
+   GASHA EMBLEM — Ethiopian shield, cinematic circular motif
+   ============================================================ */
+
+.gasha {
+  position: relative;
+  /* Capped on both axes so the emblem can never force a scrollbar */
+  width: min(34vw, 62vh);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  isolation: isolate;
+  animation: gashaEnter 1.1s var(--ease-smooth) both;
+}
+
+@keyframes gashaEnter {
+  from { opacity: 0; transform: translateY(28px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Ambient bloom ──────────────────────────────────────── */
+.gasha__glow {
+  position: absolute;
+  inset: -14%;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(226, 158, 88, 0.34) 0%,
+    rgba(212, 168, 67, 0.16) 42%,
+    transparent 68%);
+  filter: blur(28px);
+  opacity: 0.72;
+  z-index: -1;
+  animation: gashaBreathe 7s ease-in-out infinite alternate;
+  transition: opacity var(--duration-slow) var(--ease-smooth),
+              transform var(--duration-slow) var(--ease-smooth);
+}
+
+@keyframes gashaBreathe {
+  from { transform: scale(0.96); opacity: 0.58; }
+  to   { transform: scale(1.05); opacity: 0.82; }
+}
+
+/* ── The plate ──────────────────────────────────────────── */
+.gasha__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 26px 52px rgba(0, 0, 0, 0.62));
+}
+
+.gasha__disc {
+  transform-origin: center;
+  transition:
+    transform var(--duration-slow) var(--ease-smooth),
+    filter var(--duration-slow) var(--ease-smooth);
+}
+
+/* Soft contact shadow beneath the plate */
+.gasha__contact {
+  fill: rgba(0, 0, 0, 0.45);
+  filter: blur(18px);
+  opacity: 0.55;
+  transition: opacity var(--duration-slow) var(--ease-smooth),
+              transform var(--duration-slow) var(--ease-smooth);
+  transform-origin: center;
+}
+
+/* Sunburst turns almost imperceptibly at rest */
+.gasha__sunburst {
+  transform-origin: 256px 256px;
+  animation: gashaSpin 140s linear infinite;
+}
+
+@keyframes gashaSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hub counter-rotates for parallax against the sunburst */
+.gasha__hub {
+  transform-origin: 256px 256px;
+  animation: gashaSpin 90s linear infinite reverse;
+}
+
+/* Highlight arc travelling the rim */
+.gasha__arc {
+  transform-origin: 256px 256px;
+  opacity: 0;
+  animation: gashaSpin 14s linear infinite;
+  transition: opacity var(--duration-slow) var(--ease-smooth);
+}
+
+/* ── Diagonal light sweep ───────────────────────────────── */
+.gasha__sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-smooth);
+}
+
+.gasha__sweep::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -120%;
+  width: 55%;
+  height: 220%;
+  background: linear-gradient(to right,
+    transparent,
+    rgba(255, 240, 214, 0.42),
+    transparent);
+  transform: rotate(22deg);
+  filter: blur(10px);
+}
+
+/* ── Hover ──────────────────────────────────────────────── */
+.gasha:hover .gasha__disc {
+  transform: scale(1.035) translateY(-8px);
+  filter: saturate(1.12) brightness(1.06);
+}
+
+.gasha:hover .gasha__glow {
+  opacity: 1;
+  transform: scale(1.12);
+}
+
+.gasha:hover .gasha__contact {
+  opacity: 0.75;
+  transform: scale(1.04) translateY(6px);
+}
+
+/* Sunburst accelerates, hub reverses harder */
+.gasha:hover .gasha__sunburst {
+  animation-duration: 26s;
+}
+
+.gasha:hover .gasha__hub {
+  animation-duration: 18s;
+}
+
+.gasha:hover .gasha__arc {
+  opacity: 1;
+}
+
+.gasha:hover .gasha__sweep {
+  opacity: 1;
+}
+
+.gasha:hover .gasha__sweep::before {
+  animation: gashaSweep 1.5s var(--ease-smooth);
+}
+
+@keyframes gashaSweep {
+  from { left: -120%; }
+  to   { left: 165%; }
+}
+
+/* ── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .gasha,
+  .gasha__glow,
+  .gasha__sunburst,
+  .gasha__hub,
+  .gasha__arc,
+  .gasha__sweep::before {
+    animation: none;
+  }
+
+  .gasha:hover .gasha__disc {
+    transform: none;
+  }
+}

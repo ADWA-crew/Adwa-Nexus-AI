@@ -1,0 +1,159 @@
+/* ============================================================
+   START JOURNEY — split layout, viewport locked
+   ============================================================ */
+
+.sj {
+  position: relative;
+  height: 100dvh;
+  width: 100%;
+  /* The page owns the lock so the home page keeps normal scrolling */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top bar ────────────────────────────────────────────── */
+.sj__topbar {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(14px, 2.4vh, 26px) clamp(20px, 3.4vw, 52px);
+  flex-shrink: 0;
+  animation: sjFadeIn 0.6s var(--ease-smooth) both;
+}
+
+.sj__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--cream-muted);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+}
+
+.sj__back:hover {
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(212, 168, 67, 0.35);
+  color: var(--gold-bright);
+  transform: translateX(-3px);
+}
+
+.sj__back:focus-visible {
+  outline: none;
+  border-color: rgba(212, 168, 67, 0.60);
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.16);
+}
+
+@keyframes sjFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Split grid ─────────────────────────────────────────── */
+.sj__grid {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 3.4vw, 52px) clamp(16px, 3vh, 40px);
+}
+
+/* Left — form sits against the page's left edge */
+.sj__form {
+  display: flex;
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+/* Right — emblem */
+.sj__emblem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2vh, 22px);
+  min-width: 0;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+/* Tablet and below: stack, release the scroll lock */
+@media (max-width: 1000px) {
+  .sj {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  .sj__grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 28px;
+    padding-bottom: 48px;
+  }
+
+  /* Emblem becomes a header accent above the form */
+  .sj__emblem {
+    order: -1;
+  }
+
+  .sj__form {
+    justify-content: center;
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .gasha {
+    width: min(300px, 52vw);
+  }
+}
+
+@media (max-width: 640px) {
+  .sj__topbar {
+    padding: 14px 16px;
+  }
+
+  /* Keep the form the sole focus on phones */
+  .sj__emblem {
+    display: none;
+  }
+
+  .sj__grid {
+    padding: 0 16px 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sj__topbar {
+    animation: none;
+  }
+
+  .sj__back:hover {
+    transform: none;
+  }
+}
