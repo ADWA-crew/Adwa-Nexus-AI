@@ -7,6 +7,7 @@ import {
   VISITOR_TYPES,
   AGE_GROUPS,
   getEducationOptions,
+  getVisitorRoute,
 } from '../../utils/constants';
 import './PersonalizationForm.css';
 
@@ -20,14 +21,6 @@ const ArrowRight = () => (
 
 const Spinner = () => (
   <span className="pf-spinner" aria-hidden="true" />
-);
-
-const CheckCircle = () => (
-  <svg viewBox="0 0 24 24" width="26" height="26" fill="none"
-    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="12" cy="12" r="9.5" />
-    <polyline points="7.5,12.5 10.5,15.5 16.5,8.5" />
-  </svg>
 );
 
 const AlertIcon = () => (
@@ -51,7 +44,6 @@ export default function PersonalizationForm() {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  const [result, setResult] = useState(null);
 
   const { startSession } = useVisitor();
   const navigate = useNavigate();
@@ -124,8 +116,7 @@ export default function PersonalizationForm() {
         education: form.education,
       });
       startSession(session);
-      setResult(session);
-      navigate(session.redirectTo || '/profile', { replace: false });
+      navigate(session?.redirectTo || getVisitorRoute(form.visitorType, form.ageGroup));
     } catch (err) {
       console.error('Start journey failed:', err?.response?.data || err);
       setSubmitError('We could not start your journey. Please try again.');
@@ -133,49 +124,6 @@ export default function PersonalizationForm() {
       setSubmitting(false);
     }
   };
-
-  const reset = () => {
-    setResult(null);
-    setForm(INITIAL);
-    setErrors({});
-  };
-
-  /* Confirmation replaces the fields in place — no navigation */
-  if (result) {
-    return (
-      <div className="pf-panel pf-panel--done">
-        <div className="pf-done">
-          <span className="pf-done__icon" aria-hidden="true">
-            <CheckCircle />
-          </span>
-
-          <h2 className="pf-done__title">
-            Your journey is ready, {result.visitor.fullName.split(' ')[0]}
-          </h2>
-          <p className="pf-done__text">{result.experience.summary}</p>
-
-          <dl className="pf-done__meta">
-            <div>
-              <dt>Tone</dt>
-              <dd>{result.experience.tone}</dd>
-            </div>
-            <div>
-              <dt>Reading level</dt>
-              <dd>{result.experience.readingLevel}</dd>
-            </div>
-            <div>
-              <dt>Depth</dt>
-              <dd>{result.experience.contentDepth}</dd>
-            </div>
-          </dl>
-
-          <button type="button" className="pf-btn pf-btn--ghost" onClick={reset}>
-            Adjust preferences
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <form className="pf-panel" onSubmit={handleSubmit} noValidate>

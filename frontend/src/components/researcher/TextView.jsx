@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { readingMinutes } from '../../data/exhibits';
+import { exhibitParagraphs, readingMinutes } from '../../data/exhibits';
 import { SpeakerIcon } from './icons';
 import './TextView.css';
 
@@ -9,15 +9,16 @@ const SIZES = [
   { id: 'lg', label: 'A', title: 'Large text' },
 ];
 
-export default function TextView({ exhibit, onListen }) {
-  const [size, setSize] = useState('md');
+export default function TextView({ exhibit, simple = false, onListen }) {
+  const [size, setSize] = useState(simple ? 'lg' : 'md');
+  const paragraphs = exhibitParagraphs(exhibit, simple);
 
   return (
     <div className={`tv tv--${size}`}>
 
       <div className="tv__bar">
         <span className="tv__meta">
-          {readingMinutes(exhibit)} min read
+          {readingMinutes(exhibit, simple)} min read
         </span>
 
         <div className="tv__sizes" role="group" aria-label="Text size">
@@ -37,7 +38,7 @@ export default function TextView({ exhibit, onListen }) {
       </div>
 
       <article className="tv__body">
-        {exhibit.paragraphs.map((paragraph, index) => (
+        {paragraphs.map((paragraph, index) => (
           <p key={index} className={index === 0 ? 'tv__lead' : undefined}>
             {paragraph}
           </p>

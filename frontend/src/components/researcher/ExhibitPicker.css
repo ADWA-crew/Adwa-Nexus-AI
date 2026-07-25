@@ -1,0 +1,174 @@
+/* ============================================================
+   EXHIBIT PICKER — shared chooser for every visitor profile
+   ============================================================ */
+
+.xp {
+  margin-bottom: var(--space-xl);
+}
+
+.xp__title {
+  margin-bottom: var(--space-md);
+  font-family: var(--font-display);
+  font-size: clamp(19px, 3vw, 23px);
+  font-weight: 600;
+  color: var(--cream-primary);
+}
+
+.xp__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-md);
+}
+
+.xp__card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  height: 100%;
+  padding: var(--space-md);
+  text-align: left;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--white-12);
+  background: rgba(26, 13, 6, 0.62);
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              border-color var(--duration-fast) var(--ease-smooth),
+              background var(--duration-fast) var(--ease-smooth);
+}
+
+.xp__card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(230, 172, 71, 0.45);
+  background: rgba(46, 26, 14, 0.72);
+}
+
+.xp__card:focus-visible {
+  outline: 2px solid #E6AC47;
+  outline-offset: 3px;
+}
+
+.xp__card--active {
+  border-color: #E6AC47;
+  background: rgba(230, 172, 71, 0.12);
+  box-shadow: 0 0 0 1px rgba(230, 172, 71, 0.25);
+}
+
+/* ── Thumb ─────────────────────────────────────────────── */
+.xp__thumb {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(230, 172, 71, 0.28);
+  background: linear-gradient(150deg, rgba(230, 172, 71, 0.22), rgba(46, 26, 14, 0.9));
+}
+
+.xp__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.xp__index {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: #E6AC47;
+}
+
+/* ── Body ──────────────────────────────────────────────── */
+.xp__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.xp__era {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(230, 172, 71, 0.85);
+}
+
+.xp__name {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--cream-primary);
+}
+
+.xp__sub {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--white-70);
+}
+
+.xp__go {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--white-12);
+  color: var(--white-40);
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.xp__card:hover .xp__go,
+.xp__card--active .xp__go {
+  border-color: rgba(230, 172, 71, 0.5);
+  color: #E6AC47;
+}
+
+/* ── Playful variant (child experience) ────────────────── */
+.xp--playful .xp__title {
+  font-size: clamp(21px, 3.4vw, 26px);
+}
+
+.xp--playful .xp__card {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border-radius: var(--radius-xl);
+  border-width: 2px;
+}
+
+.xp--playful .xp__thumb {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+}
+
+.xp--playful .xp__index {
+  font-size: 27px;
+}
+
+.xp--playful .xp__name {
+  font-size: 20px;
+}
+
+.xp--playful .xp__sub {
+  font-size: 14px;
+}
+
+.xp--playful .xp__go {
+  align-self: flex-end;
+  width: 38px;
+  height: 38px;
+  background: rgba(230, 172, 71, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xp__card:hover {
+    transform: none;
+  }
+}

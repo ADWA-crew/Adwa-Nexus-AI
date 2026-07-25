@@ -24,8 +24,8 @@ const tokenize = (script) => {
   return tokens;
 };
 
-export default function AudioNarrator({ exhibit, onRead }) {
-  const script = useMemo(() => exhibitScript(exhibit), [exhibit]);
+export default function AudioNarrator({ exhibit, simple = false, onRead }) {
+  const script = useMemo(() => exhibitScript(exhibit, simple), [exhibit, simple]);
   const tokens = useMemo(() => tokenize(script), [script]);
 
   const { supported, status, charIndex, progress, rate, changeRate, toggle, stop, play } =
