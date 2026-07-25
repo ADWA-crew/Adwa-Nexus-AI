@@ -1,0 +1,139 @@
+/* ============================================================
+   LANGUAGE SELECT — shared glass language switcher
+   ============================================================ */
+
+.lang {
+  position: relative;
+}
+
+.lang__trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--white-06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--white-12);
+  color: var(--white-70);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast),
+    color var(--duration-fast),
+    border-color var(--duration-fast);
+}
+
+.lang__trigger:hover {
+  background: var(--white-12);
+  color: var(--cream-primary);
+  border-color: rgba(212, 168, 67, 0.30);
+}
+
+.lang__trigger:focus-visible {
+  outline: none;
+  border-color: rgba(212, 168, 67, 0.60);
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.16);
+}
+
+.lang__globe {
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+}
+
+.lang__code {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.lang__chevron {
+  display: flex;
+  align-items: center;
+  opacity: 0.6;
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.lang__chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown ───────────────────────────────────────────── */
+.lang__dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 148px;
+  z-index: 80;
+  background: rgba(18, 10, 5, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 168, 67, 0.20);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.60);
+  animation: langReveal var(--duration-normal) var(--ease-smooth);
+}
+
+@keyframes langReveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.lang__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background var(--duration-fast);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.lang__option:last-child {
+  border-bottom: none;
+}
+
+.lang__option:hover {
+  background: var(--white-06);
+}
+
+.lang__option--active {
+  background: rgba(212, 168, 67, 0.10);
+}
+
+.lang__option-code {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold-primary);
+  letter-spacing: 0.05em;
+  min-width: 28px;
+}
+
+.lang__option-label {
+  font-size: 13px;
+  color: var(--white-70);
+}
+
+.lang__option--active .lang__option-label {
+  color: var(--cream-primary);
+}
+
+@media (max-width: 768px) {
+  .lang__trigger {
+    padding: 7px 10px;
+  }
+
+  .lang__globe {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lang__dropdown { animation: none; }
+}
