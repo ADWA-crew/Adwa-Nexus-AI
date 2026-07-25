@@ -3,6 +3,7 @@ import cors from 'cors';
 import './config/env.js';
 import artifactRoutes from './routes/artifact.routes.js';
 import adminRoutes from './routes/admin.routes.js';
+import museumRoutes from './routes/museum.routes.js';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware.js';
 
 const app = express();
@@ -18,6 +19,7 @@ app.get('/health', (_req, res) => {
 // Yamini — Content + Admin APIs
 app.use('/api/v1/artifacts', artifactRoutes);
 app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/museum', museumRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
