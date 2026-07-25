@@ -1,5 +1,102 @@
-﻿const HeroSection = () => {
-  return <section></section>;
-};
+﻿import adwaHero from '../../assets/images/heroes/adwa_hero.png';
+import './HeroSection.css';
 
-export default HeroSection;
+/* ── Icon helpers ─────────────────────────────────────── */
+const ArrowRight = () => (
+  <svg viewBox="0 0 20 20" width="17" height="17" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="4" y1="10" x2="16" y2="10" />
+    <polyline points="11,5 16,10 11,15" />
+  </svg>
+);
+
+const PlayIcon = () => (
+  <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
+    <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
+    <polygon points="8,6.5 8,13.5 14,10" />
+  </svg>
+);
+
+const StarIcon = () => (
+  <svg viewBox="0 0 16 16" width="13" height="13" fill="var(--gold-bright)" aria-hidden="true">
+    <path d="M8 1l1.8 3.6 4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4L2.2 5.2l4-.6z" />
+  </svg>
+);
+
+export default function HeroSection() {
+  return (
+    <section className="hero" id="home" aria-label="Hero section">
+
+      {/* ── Background ──────────────────────────────────────── */}
+      <div className="hero__bg" aria-hidden="true">
+        <img
+          src={adwaHero}
+          alt=""
+          className="hero__bg-img"
+          loading="eager"
+          decoding="async"
+        />
+
+        {/* Timelapse sky — drifting clouds + travelling warm light */}
+        <div className="hero__sky">
+          <div className="hero__clouds hero__clouds--back" />
+          <div className="hero__clouds hero__clouds--front" />
+          <div className="hero__sky-light" />
+        </div>
+
+        {/* Cinematic layered overlay — dark vignette with warm tones */}
+        <div className="hero__overlay" />
+        <div className="hero__overlay-top" />
+        <div className="hero__overlay-bottom" />
+      </div>
+
+      {/* ── Content ─────────────────────────────────────────── */}
+      <div className="hero__content">
+        <div className="hero__left">
+
+          {/* Badge */}
+          <div className="hero__badge">
+            <span className="hero__badge-pulse" aria-hidden="true" />
+            <StarIcon />
+            <span>Ethiopia's #1 Heritage Platform</span>
+          </div>
+
+          {/* Heading */}
+          <h1 className="hero__title">
+            Discover Ethiopia's
+            <br />
+            <span className="hero__title-gold">Living History</span>
+          </h1>
+
+          {/* Description */}
+          <p className="hero__desc">
+            Explore Ethiopia's museums, historical artifacts, and legendary
+            heritage through immersive digital experiences.
+          </p>
+
+          {/* CTA row */}
+          <div className="hero__cta-row">
+            <button className="hero-btn hero-btn--primary" type="button">
+              <ArrowRight />
+              Start Journey
+            </button>
+            <button className="hero-btn hero-btn--ghost" type="button">
+              <PlayIcon />
+              Discover Ethiopia
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── Scroll indicator ────────────────────────────────── */}
+      <div className="hero__scroll" aria-hidden="true">
+        <div className="hero__scroll-mouse">
+          <div className="hero__scroll-dot" />
+        </div>
+        <span className="hero__scroll-label">Scroll to explore</span>
+      </div>
+
+    </section>
+  );
+}

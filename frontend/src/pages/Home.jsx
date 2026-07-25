@@ -1,5 +1,11 @@
-﻿const Home = () => {
-  return <div></div>;
-};
+﻿import Navbar from '../components/layout/Navbar';
+import HeroSection from '../components/home/HeroSection';
 
-export default Home;
+export default function Home() {
+  return (
+    <main>
+      <Navbar />
+      <HeroSection />
+    </main>
+  );
+}
