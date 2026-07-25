@@ -7,6 +7,7 @@ import AudioNarrator from '../components/researcher/AudioNarrator';
 import VideoView from '../components/researcher/VideoView';
 import { SpeakerIcon, TextIcon, VideoIcon } from '../components/researcher/icons';
 import { getExhibit } from '../data/exhibits';
+import { artifactService } from '../services/artifact.service';
 import './ExhibitPage.css';
 
 const FORMATS = [
@@ -25,7 +26,9 @@ export default function ExhibitPage() {
   const { id } = useParams();
   const [params] = useSearchParams();
 
-  const exhibit = getExhibit(id);
+  const [exhibit, setExhibit] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   /* QR codes can target a format directly, e.g. ?format=audio */
   const requested = params.get('format');
   const simple = params.get('simple') === '1';
@@ -36,11 +39,42 @@ export default function ExhibitPage() {
 
   useEffect(() => () => window.speechSynthesis?.cancel(), []);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      setLoading(true);
+      try {
+        const data = await artifactService.getById(id);
+        if (!cancelled) setExhibit(data);
+      } catch {
+        if (!cancelled) setExhibit(getExhibit(id));
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
   /* Switching format must silence whatever was playing */
   const changeFormat = (next) => {
     window.speechSynthesis?.cancel();
     setFormat(next);
   };
+
+  if (loading) {
+    return (
+      <div className="xh">
+        <Navbar />
+        <main className="xh__missing">
+          <h1>Opening exhibit…</h1>
+        </main>
+      </div>
+    );
+  }
 
   if (!exhibit) {
     return (

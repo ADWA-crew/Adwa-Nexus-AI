@@ -1,9 +1,9 @@
 import adwaHero from '../assets/images/heroes/adwa_hero.png';
 
 /* ============================================================
-   EXHIBITS — mock content keyed by QR payload
-   Shape matches the planned API response, so swapping this for
-   artifactService / museumService calls needs no UI changes.
+   EXHIBITS — offline fallback keyed by QR payload
+   Live data comes from GET /api/artifacts/:id and POST /api/qr/resolve.
+   Keep this shape identical to the backend exhibit DTO.
    ============================================================ */
 
 export const EXHIBITS = {

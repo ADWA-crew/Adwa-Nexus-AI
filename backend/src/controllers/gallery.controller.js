@@ -1,13 +1,12 @@
-import * as routeService from '../services/route.service.js';
+import * as galleryService from '../services/gallery.service.js';
 import { success } from '../utils/apiResponse.js';
 
 export async function list(req, res, next) {
   try {
-    const routes = await routeService.listRoutes({
-      profile: req.query.profile,
+    const galleries = await galleryService.listGalleries({
       museumId: req.query.museumId,
     });
-    return success(res, routes, { count: routes.length });
+    return success(res, galleries, { count: galleries.length });
   } catch (error) {
     return next(error);
   }
@@ -15,8 +14,8 @@ export async function list(req, res, next) {
 
 export async function getById(req, res, next) {
   try {
-    const route = await routeService.getRouteById(req.params.id);
-    return success(res, route);
+    const gallery = await galleryService.getGalleryById(req.params.id);
+    return success(res, gallery);
   } catch (error) {
     return next(error);
   }

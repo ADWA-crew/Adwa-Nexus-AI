@@ -136,6 +136,7 @@ export async function getRecommendations(session, limit = 10) {
     },
     select: {
       id: true,
+      slug: true,
       title: true,
       category: true,
       era: true,
@@ -149,6 +150,7 @@ export async function getRecommendations(session, limit = 10) {
   return artifacts
     .map((artifact) => ({
       ...artifact,
+      publicId: artifact.slug || artifact.id,
       score: scoreArtifact(artifact, session, viewedIds),
       viewed: viewedIds.has(artifact.id),
     }))
@@ -160,14 +162,27 @@ export async function getRecommendedRoutes(profile) {
   const routes = await prisma.tourRoute.findMany({
     where: { profile },
     orderBy: { title: 'asc' },
+    include: {
+      routeStops: {
+        orderBy: { order: 'asc' },
+        include: {
+          artifact: { select: { id: true, slug: true, title: true } },
+        },
+      },
+    },
   });
 
   return routes.map((route) => ({
     id: route.slug || route.id,
     title: route.title,
     duration: route.duration,
-    stops: route.stops,
+    stops: route.stops || route.routeStops.length,
     description: route.description,
+    stopList: route.routeStops.map((stop) => ({
+      order: stop.order,
+      artifactId: stop.artifact?.slug || stop.artifactId,
+      title: stop.title || stop.artifact?.title || null,
+    })),
   }));
 }
 

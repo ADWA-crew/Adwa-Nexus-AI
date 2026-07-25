@@ -70,6 +70,7 @@ model Museum {
   galleries       Gallery[]
   artifacts       Artifact[]
   visitorSessions VisitorSession[]
+  tourRoutes      TourRoute[]
 
   @@map("museums")
 }
@@ -88,31 +89,48 @@ model Gallery {
   artifacts     Artifact[]
   visitorEvents VisitorEvent[]
 
+  @@index([museumId])
   @@map("galleries")
 }
 
 model Artifact {
-  id          String         @id @default(cuid())
-  museumId    String
-  galleryId   String?
-  title       String
-  description String?
-  era         String?
-  category    String?
-  status      ArtifactStatus @default(DRAFT)
-  location    String?
-  createdById String?
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id           String         @id @default(cuid())
+  museumId     String
+  galleryId    String?
+  /// Stable public key used by QR payloads and FE exhibit routes (e.g. adwa-victory)
+  slug         String?        @unique
+  title        String
+  subtitle     String?
+  description  String?
+  era          String?
+  category     String?
+  status       ArtifactStatus @default(DRAFT)
+  location     String?
+  coverImage   String?
+  /// Adult / researcher narrative paragraphs
+  paragraphs   Json           @default("[]")
+  /// Simplified story for under-18 / child mode
+  kidsText     String?
+  /// [{ "label": "Date", "value": "1 March 1896" }]
+  facts        Json           @default("[]")
+  youtubeId    String?
+  videoCaption String?
+  sortOrder    Int            @default(0)
+  createdById  String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 
-  museum        Museum         @relation(fields: [museumId], references: [id], onDelete: Cascade)
-  gallery       Gallery?       @relation(fields: [galleryId], references: [id], onDelete: SetNull)
-  createdBy     User?          @relation("ArtifactCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  museum        Museum          @relation(fields: [museumId], references: [id], onDelete: Cascade)
+  gallery       Gallery?        @relation(fields: [galleryId], references: [id], onDelete: SetNull)
+  createdBy     User?           @relation("ArtifactCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
   media         Media[]
   qrCode        QrCode?
   qrScans       QrScan[]
   visitorEvents VisitorEvent[]
+  routeStops    TourRouteStop[]
 
+  @@index([museumId, status])
+  @@index([galleryId])
   @@map("artifacts")
 }
 
@@ -130,11 +148,13 @@ model Media {
   artifact   Artifact? @relation(fields: [artifactId], references: [id], onDelete: Cascade)
   uploadedBy User?     @relation("MediaUploadedBy", fields: [uploadedById], references: [id], onDelete: SetNull)
 
+  @@index([artifactId])
   @@map("media")
 }
 
 model QrCode {
   id         String   @id @default(cuid())
+  /// Scannable payload — usually the artifact slug
   code       String   @unique
   artifactId String   @unique
   url        String
@@ -155,10 +175,12 @@ model QrScan {
   userAgent  String?
   scannedAt  DateTime @default(now())
 
-  qrCode  QrCode          @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
-  artifact Artifact       @relation(fields: [artifactId], references: [id], onDelete: Cascade)
-  session VisitorSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  qrCode   QrCode          @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+  artifact Artifact        @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+  session  VisitorSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
 
+  @@index([artifactId])
+  @@index([sessionId])
   @@map("qr_scans")
 }
 
@@ -177,10 +199,12 @@ model VisitorSession {
   endedAt      DateTime?
   lastActiveAt DateTime  @default(now())
 
-  museum   Museum?        @relation(fields: [museumId], references: [id], onDelete: SetNull)
-  events   VisitorEvent[]
-  qrScans  QrScan[]
+  museum  Museum?        @relation(fields: [museumId], references: [id], onDelete: SetNull)
+  events  VisitorEvent[]
+  qrScans QrScan[]
 
+  @@index([museumId])
+  @@index([visitorType])
   @@map("visitor_sessions")
 }
 
@@ -190,14 +214,35 @@ model TourRoute {
   title       String
   description String?
   duration    String?
+  /// Convenience count; prefer routeStops for ordered content
   stops       Int      @default(0)
   profile     String
   museumId    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  museum     Museum?         @relation(fields: [museumId], references: [id], onDelete: SetNull)
+  routeStops TourRouteStop[]
+
   @@index([profile])
+  @@index([museumId])
   @@map("tour_routes")
+}
+
+model TourRouteStop {
+  id         String  @id @default(cuid())
+  routeId    String
+  artifactId String?
+  order      Int
+  title      String?
+  note       String?
+
+  route    TourRoute @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  artifact Artifact? @relation(fields: [artifactId], references: [id], onDelete: SetNull)
+
+  @@unique([routeId, order])
+  @@index([artifactId])
+  @@map("tour_route_stops")
 }
 
 model VisitorEvent {

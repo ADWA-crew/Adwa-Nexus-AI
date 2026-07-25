@@ -1,14 +1,17 @@
 import { prisma } from '../config/database.js';
 import { AppError } from '../utils/apiResponse.js';
+import { toMuseumDto } from '../utils/exhibitDto.js';
 
 export async function listMuseums({ status = 'ACTIVE' } = {}) {
-  return prisma.museum.findMany({
+  const museums = await prisma.museum.findMany({
     where: status ? { status } : undefined,
     orderBy: { name: 'asc' },
     include: {
       _count: { select: { artifacts: true, galleries: true } },
     },
   });
+
+  return museums.map(toMuseumDto);
 }
 
 export async function getMuseumById(id) {
@@ -18,16 +21,14 @@ export async function getMuseumById(id) {
       galleries: { orderBy: { name: 'asc' } },
       artifacts: {
         where: { status: 'PUBLISHED' },
-        select: {
-          id: true,
-          title: true,
-          category: true,
-          era: true,
-          description: true,
-          location: true,
-          galleryId: true,
+        orderBy: [{ sortOrder: 'asc' }, { title: 'asc' }],
+        include: {
+          gallery: { select: { id: true, name: true } },
+          media: { where: { type: 'IMAGE' }, take: 1 },
+          qrCode: { select: { code: true, url: true } },
         },
       },
+      _count: { select: { artifacts: true, galleries: true } },
     },
   });
 
@@ -35,5 +36,5 @@ export async function getMuseumById(id) {
     throw new AppError('Museum not found', 404, 'MUSEUM_NOT_FOUND');
   }
 
-  return museum;
+  return toMuseumDto(museum);
 }
