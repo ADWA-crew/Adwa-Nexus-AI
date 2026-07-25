@@ -1,4 +1,6 @@
-﻿import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect } from 'react';
+import LanguageSelect from '../common/LanguageSelect';
+import { useLanguage } from '../../hooks/useLanguage';
 import './Navbar.css';
 
 const NAV_LINKS = [
@@ -6,13 +8,6 @@ const NAV_LINKS = [
   { label: 'Museums',   href: '#museums' },
   { label: 'Artifacts', href: '#artifacts' },
   { label: 'Routes',    href: '#routes' },
-];
-
-const LANGUAGES = [
-  { code: 'EN', label: 'English' },
-  { code: 'አማ', label: 'አማርኛ' },
-  { code: 'FR', label: 'Français' },
-  { code: 'DE', label: 'Deutsch' },
 ];
 
 const MountainLogo = () => (
@@ -37,12 +32,6 @@ const MountainLogo = () => (
   </svg>
 );
 
-const ChevronDown = () => (
-  <svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polyline points="2,4 6,8 10,4" />
-  </svg>
-);
-
 const MenuIcon = ({ open }) => (
   <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
     {open ? (
@@ -61,12 +50,11 @@ const MenuIcon = ({ open }) => (
 );
 
 export default function Navbar() {
-  const [scrolled, setScrolled]       = useState(false);
-  const [mobileOpen, setMobileOpen]   = useState(false);
-  const [langOpen, setLangOpen]       = useState(false);
-  const [activeLang, setActiveLang]   = useState(LANGUAGES[0]);
-  const [activeLink, setActiveLink]   = useState('Home');
-  const langRef                        = useRef(null);
+  const [scrolled, setScrolled]     = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState('Home');
+
+  const { setLanguage, activeLanguage, languages } = useLanguage();
 
   /* Scroll handler — adds glass tint after 60 px */
   useEffect(() => {
@@ -75,27 +63,11 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* Close language dropdown on outside click */
-  useEffect(() => {
-    const handler = (e) => {
-      if (langRef.current && !langRef.current.contains(e.target)) {
-        setLangOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
-
   /* Lock body scroll when mobile menu is open */
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
-
-  const handleLangSelect = (lang) => {
-    setActiveLang(lang);
-    setLangOpen(false);
-  };
 
   return (
     <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}`} role="banner">
@@ -131,47 +103,7 @@ export default function Navbar() {
 
         {/* ── Actions ── */}
         <div className="nav-actions">
-          {/* Language selector */}
-          <div className="nav-lang" ref={langRef}>
-            <button
-              className="nav-lang__trigger"
-              onClick={() => setLangOpen(!langOpen)}
-              aria-expanded={langOpen}
-              aria-haspopup="listbox"
-              aria-label="Select language"
-            >
-              <span className="nav-lang__globe" aria-hidden="true">
-                <svg viewBox="0 0 18 18" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <circle cx="9" cy="9" r="7.5" />
-                  <path d="M9 1.5C9 1.5 6 5 6 9s3 7.5 3 7.5S12 13 12 9 9 1.5 9 1.5z" />
-                  <line x1="1.5" y1="9" x2="16.5" y2="9" />
-                  <line x1="2.5" y1="6" x2="15.5" y2="6" />
-                  <line x1="2.5" y1="12" x2="15.5" y2="12" />
-                </svg>
-              </span>
-              <span className="nav-lang__code">{activeLang.code}</span>
-              <span className={`nav-lang__chevron${langOpen ? ' nav-lang__chevron--open' : ''}`}>
-                <ChevronDown />
-              </span>
-            </button>
-
-            {langOpen && (
-              <ul className="nav-lang__dropdown" role="listbox" aria-label="Languages">
-                {LANGUAGES.map((lang) => (
-                  <li
-                    key={lang.code}
-                    role="option"
-                    aria-selected={lang.code === activeLang.code}
-                    className={`nav-lang__option${lang.code === activeLang.code ? ' nav-lang__option--active' : ''}`}
-                    onClick={() => handleLangSelect(lang)}
-                  >
-                    <span className="nav-lang__option-code">{lang.code}</span>
-                    <span className="nav-lang__option-label">{lang.label}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <LanguageSelect />
 
           {/* Mobile hamburger */}
           <button
@@ -202,11 +134,11 @@ export default function Navbar() {
 
         <div className="nav-mobile__footer">
           <div className="nav-mobile__lang">
-            {LANGUAGES.map((lang) => (
+            {languages.map((lang) => (
               <button
-                key={lang.code}
-                className={`nav-mobile__lang-btn${lang.code === activeLang.code ? ' nav-mobile__lang-btn--active' : ''}`}
-                onClick={() => handleLangSelect(lang)}
+                key={lang.value}
+                className={`nav-mobile__lang-btn${lang.value === activeLanguage.value ? ' nav-mobile__lang-btn--active' : ''}`}
+                onClick={() => setLanguage(lang.value)}
               >
                 {lang.code}
               </button>

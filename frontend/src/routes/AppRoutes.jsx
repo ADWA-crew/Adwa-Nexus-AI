@@ -7,11 +7,13 @@ import ArtifactDetails from '../pages/ArtifactDetails';
 import RoutesList from '../pages/Routes';
 import RouteDetails from '../pages/RouteDetails';
 import VisitorProfile from '../pages/VisitorProfile';
+import StartJourney from '../pages/StartJourney';
 import NotFound from '../pages/NotFound';
 
 const AppRoutes = () => (
   <Routes>
     <Route path='/' element={<Home />} />
+    <Route path='/start-journey' element={<StartJourney />} />
     <Route path='/museums' element={<Museums />} />
     <Route path='/museums/:id' element={<MuseumDetails />} />
     <Route path='/artifacts' element={<Artifacts />} />

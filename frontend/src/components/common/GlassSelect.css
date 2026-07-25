@@ -1,0 +1,210 @@
+/* ============================================================
+   GLASS SELECT — Accessible glassmorphic dropdown
+   ============================================================ */
+
+.gselect {
+  position: relative;
+  width: 100%;
+}
+
+/* Lift the whole field while open so the menu clears later siblings
+   such as the submit button */
+.gselect--open {
+  z-index: 70;
+}
+
+/* ── Trigger ────────────────────────────────────────────── */
+.gselect__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: clamp(10px, 1.5vh, 14px) 16px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--cream-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+}
+
+.gselect__trigger:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(212, 168, 67, 0.35);
+  transform: translateY(-1px);
+}
+
+.gselect__trigger:focus-visible {
+  outline: none;
+  border-color: rgba(212, 168, 67, 0.60);
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.16);
+}
+
+.gselect--open .gselect__trigger {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(212, 168, 67, 0.50);
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.12);
+}
+
+.gselect--invalid .gselect__trigger {
+  border-color: rgba(224, 122, 95, 0.55);
+}
+
+.gselect--invalid .gselect__trigger:focus-visible {
+  box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.18);
+}
+
+.gselect--disabled .gselect__trigger {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.gselect__value {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gselect__value--placeholder {
+  color: rgba(196, 176, 138, 0.65);
+}
+
+.gselect__chevron {
+  display: flex;
+  align-items: center;
+  color: var(--cream-faint);
+  flex-shrink: 0;
+  transition: transform var(--duration-normal) var(--ease-smooth),
+              color var(--duration-fast);
+}
+
+.gselect--open .gselect__chevron {
+  transform: rotate(180deg);
+  color: var(--gold-bright);
+}
+
+/* ── Floating listbox ───────────────────────────────────── */
+.gselect__list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 60;
+  padding: 6px;
+  /* Cannot outgrow a short viewport */
+  max-height: min(264px, 40vh);
+  overflow-y: auto;
+  background: rgba(18, 10, 5, 0.94);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(212, 168, 67, 0.22);
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.62);
+  animation: gselectReveal var(--duration-normal) var(--ease-smooth);
+  outline: none;
+}
+
+/* Opens upward when there is not enough room below */
+.gselect--up .gselect__list {
+  top: auto;
+  bottom: calc(100% + 8px);
+  animation-name: gselectRevealUp;
+}
+
+@keyframes gselectReveal {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gselectRevealUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gselect__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--duration-fast), color var(--duration-fast);
+}
+
+.gselect__option--active {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.gselect__option--selected {
+  background: rgba(212, 168, 67, 0.13);
+}
+
+.gselect__option--selected.gselect__option--active {
+  background: rgba(212, 168, 67, 0.20);
+}
+
+.gselect__option-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.gselect__option-label {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--cream-primary);
+  line-height: 1.3;
+}
+
+.gselect__option--selected .gselect__option-label {
+  color: var(--gold-bright);
+}
+
+.gselect__option-hint {
+  font-size: 12px;
+  color: var(--cream-faint);
+  line-height: 1.35;
+}
+
+.gselect__option-tick {
+  display: flex;
+  align-items: center;
+  color: var(--gold-bright);
+  flex-shrink: 0;
+}
+
+/* Scrollbar */
+.gselect__list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.gselect__list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.gselect__list::-webkit-scrollbar-thumb {
+  background: rgba(212, 168, 67, 0.25);
+  border-radius: 4px;
+}
+
+.gselect__list::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 168, 67, 0.40);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gselect__list { animation: none; }
+  .gselect__trigger:hover { transform: none; }
+}

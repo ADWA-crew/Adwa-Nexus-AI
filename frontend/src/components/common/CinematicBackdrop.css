@@ -1,0 +1,141 @@
+/* ============================================================
+   CINEMATIC BACKDROP — shared hero-style background
+   ============================================================ */
+
+.cbg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cbg__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  transform: scale(1.06);
+  animation: cbgDrift 48s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes cbgDrift {
+  from { transform: scale(1.06) translateY(0); }
+  to   { transform: scale(1.11) translateY(-8px); }
+}
+
+/* ── Timelapse sky ──────────────────────────────────────── */
+.cbg__sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 62%;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+}
+
+.cbg__clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.cbg__clouds--back {
+  background:
+    radial-gradient(ellipse 22% 40% at 8%  30%, rgba(255, 226, 168, 0.30) 0%, transparent 70%),
+    radial-gradient(ellipse 18% 34% at 24% 18%, rgba(255, 238, 200, 0.22) 0%, transparent 72%),
+    radial-gradient(ellipse 26% 44% at 42% 34%, rgba(246, 214, 158, 0.26) 0%, transparent 70%),
+    radial-gradient(ellipse 20% 32% at 60% 16%, rgba(255, 232, 184, 0.20) 0%, transparent 74%),
+    radial-gradient(ellipse 24% 40% at 78% 30%, rgba(252, 222, 170, 0.24) 0%, transparent 70%),
+    radial-gradient(ellipse 18% 34% at 94% 20%, rgba(255, 238, 200, 0.20) 0%, transparent 72%);
+  filter: blur(28px);
+  opacity: 0.75;
+  animation: cbgClouds 95s linear infinite;
+}
+
+.cbg__clouds--front {
+  background:
+    radial-gradient(ellipse 14% 26% at 14% 22%, rgba(255, 244, 214, 0.26) 0%, transparent 72%),
+    radial-gradient(ellipse 11% 20% at 33% 38%, rgba(255, 236, 196, 0.20) 0%, transparent 74%),
+    radial-gradient(ellipse 16% 28% at 52% 20%, rgba(255, 248, 224, 0.24) 0%, transparent 70%),
+    radial-gradient(ellipse 12% 22% at 71% 36%, rgba(250, 228, 182, 0.20) 0%, transparent 74%),
+    radial-gradient(ellipse 15% 26% at 88% 24%, rgba(255, 242, 210, 0.22) 0%, transparent 72%);
+  filter: blur(18px);
+  opacity: 0.55;
+  animation: cbgClouds 58s linear infinite reverse;
+}
+
+@keyframes cbgClouds {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.cbg__light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 38% 52% at 50% 26%,
+    rgba(255, 206, 122, 0.42) 0%,
+    rgba(255, 184, 96, 0.16) 42%,
+    transparent 72%);
+  mix-blend-mode: soft-light;
+  animation: cbgLight 40s ease-in-out infinite alternate;
+  will-change: opacity, transform;
+}
+
+@keyframes cbgLight {
+  0%   { opacity: 0.45; transform: translateX(-9%) translateY(2%)  scale(1.00); }
+  50%  { opacity: 0.95; transform: translateX(0)    translateY(-2%) scale(1.10); }
+  100% { opacity: 0.55; transform: translateX(9%)  translateY(1%)  scale(1.04); }
+}
+
+/* ── Overlays — deeper than the hero so form text stays crisp ── */
+.cbg__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(20, 8, 2, 0.45) 0%, rgba(10, 4, 1, 0.82) 100%),
+    linear-gradient(170deg, rgba(20, 10, 4, 0.68) 0%, rgba(14, 7, 2, 0.80) 100%);
+}
+
+.cbg__overlay-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to bottom,
+    rgba(8, 4, 1, 0.88) 0%,
+    rgba(8, 4, 1, 0.45) 60%,
+    transparent 100%);
+}
+
+.cbg__overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  background: linear-gradient(to top,
+    rgba(8, 4, 1, 0.92) 0%,
+    rgba(8, 4, 1, 0.55) 50%,
+    transparent 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cbg__img,
+  .cbg__clouds,
+  .cbg__light {
+    animation: none;
+  }
+
+  .cbg__img {
+    transform: scale(1.06);
+  }
+}

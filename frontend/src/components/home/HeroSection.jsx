@@ -1,4 +1,5 @@
-﻿import adwaHero from '../../assets/images/heroes/adwa_hero.png';
+﻿import { useNavigate } from 'react-router-dom';
+import adwaHero from '../../assets/images/heroes/adwa_hero.png';
 import './HeroSection.css';
 
 /* ── Icon helpers ─────────────────────────────────────── */
@@ -24,6 +25,8 @@ const StarIcon = () => (
 );
 
 export default function HeroSection() {
+  const navigate = useNavigate();
+
   return (
     <section className="hero" id="home" aria-label="Hero section">
 
@@ -76,7 +79,11 @@ export default function HeroSection() {
 
           {/* CTA row */}
           <div className="hero__cta-row">
-            <button className="hero-btn hero-btn--primary" type="button">
+            <button
+              className="hero-btn hero-btn--primary"
+              type="button"
+              onClick={() => navigate('/start-journey')}
+            >
               <ArrowRight />
               Start Journey
             </button>
