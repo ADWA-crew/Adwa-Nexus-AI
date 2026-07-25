@@ -11,6 +11,7 @@ node_modules/
 dist/
 build/
 dist-ssr/
+coverage/
 
 # Logs
 logs/
@@ -33,5 +34,4 @@ pnpm-debug.log*
 
 # Misc
 *.local
-coverage/
 .cache/

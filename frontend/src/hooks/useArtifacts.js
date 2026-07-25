@@ -7,8 +7,9 @@ export const useArtifacts = (params) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    artifactService.getAll(params)
-      .then((res) => setArtifacts(res.data))
+    artifactService
+      .getAll(params)
+      .then((data) => setArtifacts(Array.isArray(data) ? data : []))
       .catch(setError)
       .finally(() => setLoading(false));
   }, []);

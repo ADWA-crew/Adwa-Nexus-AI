@@ -118,7 +118,8 @@ export default function PersonalizationForm() {
       startSession(session);
       /* Each profile continues on the experience built for it */
       navigate(getVisitorRoute(form.visitorType, form.ageGroup));
-    } catch {
+    } catch (err) {
+      console.error('Start journey failed:', err?.response?.data || err);
       setSubmitError('We could not start your journey. Please try again.');
       setSubmitting(false);
     }

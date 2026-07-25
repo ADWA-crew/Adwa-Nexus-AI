@@ -1,6 +1,6 @@
-﻿import api from './api';
+﻿import api, { unwrap } from './api';
 
 export const artifactService = {
-  getAll: (params) => api.get('/artifacts', { params }),
-  getById: (id) => api.get(`/artifacts/${id}`),
+  getAll: (params) => api.get('/artifacts', { params }).then(unwrap),
+  getById: (id) => api.get(`/artifacts/${id}`).then(unwrap),
 };
