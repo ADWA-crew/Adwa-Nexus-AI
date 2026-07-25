@@ -8,6 +8,7 @@ import RoutesList from '../pages/Routes';
 import RouteDetails from '../pages/RouteDetails';
 import VisitorProfile from '../pages/VisitorProfile';
 import StartJourney from '../pages/StartJourney';
+import ResearcherPage from '../pages/ResearcherPage';
 import NotFound from '../pages/NotFound';
 
 const AppRoutes = () => (
@@ -21,6 +22,7 @@ const AppRoutes = () => (
     <Route path='/routes' element={<RoutesList />} />
     <Route path='/routes/:id' element={<RouteDetails />} />
     <Route path='/profile' element={<VisitorProfile />} />
+    <Route path='/researcher' element={<ResearcherPage />} />
     <Route path='*' element={<NotFound />} />
   </Routes>
 );

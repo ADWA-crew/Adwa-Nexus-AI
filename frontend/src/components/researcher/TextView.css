@@ -1,0 +1,146 @@
+/* ============================================================
+   TEXT VIEW — readable story with facts and size control
+   ============================================================ */
+
+.tv {
+  --tv-size: 17px;
+}
+
+.tv--sm { --tv-size: 15px; }
+.tv--md { --tv-size: 17px; }
+.tv--lg { --tv-size: 20px; }
+
+.tv__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--white-06);
+}
+
+.tv__meta {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white-40);
+}
+
+.tv__sizes {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.tv__size {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--white-12);
+  background: var(--white-06);
+  color: var(--white-70);
+  font-family: var(--font-display);
+  line-height: 1;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.tv__size--sm { font-size: 11px; }
+.tv__size--md { font-size: 14px; }
+.tv__size--lg { font-size: 17px; }
+
+.tv__size:hover {
+  color: var(--cream-primary);
+  border-color: rgba(230, 172, 71, 0.35);
+}
+
+.tv__size--on {
+  background: rgba(230, 172, 71, 0.16);
+  border-color: #E6AC47;
+  color: #E6AC47;
+}
+
+/* ── Story ─────────────────────────────────────────────── */
+.tv__body p {
+  font-size: var(--tv-size);
+  line-height: 1.85;
+  color: var(--cream-muted);
+  transition: font-size var(--duration-normal) var(--ease-smooth);
+}
+
+.tv__body p + p {
+  margin-top: var(--space-md);
+}
+
+/* Drop cap opens the story like a museum label */
+.tv__lead::first-letter {
+  float: left;
+  margin: 6px 10px 0 0;
+  font-family: var(--font-display);
+  font-size: calc(var(--tv-size) * 3.2);
+  line-height: 0.82;
+  font-weight: 700;
+  color: #E6AC47;
+}
+
+/* ── Fact grid ─────────────────────────────────────────── */
+.tv__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+.tv__fact {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--white-06);
+  background: rgba(230, 172, 71, 0.05);
+  border-left: 2px solid rgba(230, 172, 71, 0.5);
+}
+
+.tv__fact-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(230, 172, 71, 0.85);
+  margin-bottom: 2px;
+}
+
+.tv__fact-value {
+  font-size: 14px;
+  color: var(--cream-primary);
+}
+
+/* ── Cross-link to narration ───────────────────────────── */
+.tv__listen {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  border: 1px dashed rgba(230, 172, 71, 0.4);
+  background: transparent;
+  color: var(--cream-muted);
+  font-family: var(--font-body);
+  font-size: 14px;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.tv__listen:hover {
+  background: rgba(230, 172, 71, 0.1);
+  border-style: solid;
+  color: #E6AC47;
+}
+
+@media (max-width: 560px) {
+  .tv__listen {
+    width: 100%;
+    justify-content: center;
+    text-align: left;
+  }
+}

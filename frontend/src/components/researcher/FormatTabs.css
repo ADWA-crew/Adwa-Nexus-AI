@@ -1,0 +1,91 @@
+/* ============================================================
+   FORMAT TABS — segmented control with a sliding gold pill
+   ============================================================ */
+
+.fmt {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--fmt-count), 1fr);
+  gap: 2px;
+  padding: 5px;
+  border: 1px solid var(--white-12);
+  border-radius: var(--radius-lg);
+  background: rgba(8, 4, 2, 0.5);
+}
+
+.fmt__indicator {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc((100% - 10px) / var(--fmt-count));
+  border-radius: var(--radius-md);
+  background: linear-gradient(150deg, rgba(230, 172, 71, 0.22), rgba(230, 172, 71, 0.08));
+  border: 1px solid rgba(230, 172, 71, 0.45);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  transform: translateX(calc(var(--fmt-index) * 100%));
+  transition: transform var(--duration-normal) var(--ease-bounce);
+}
+
+.fmt__btn {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 12px 8px;
+  border-radius: var(--radius-md);
+  color: var(--white-70);
+  font-family: var(--font-body);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+.fmt__btn:hover {
+  color: var(--cream-primary);
+}
+
+.fmt__btn--active {
+  color: #E6AC47;
+}
+
+.fmt__btn:focus-visible {
+  outline: 2px solid #E6AC47;
+  outline-offset: 2px;
+}
+
+.fmt__label {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.fmt__hint {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--white-40);
+}
+
+.fmt__btn--active .fmt__hint {
+  color: rgba(230, 172, 71, 0.7);
+}
+
+@media (max-width: 560px) {
+  .fmt__hint {
+    display: none;
+  }
+
+  .fmt__btn {
+    padding: 11px 4px;
+  }
+
+  .fmt__label {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fmt__indicator {
+    transition: none;
+  }
+}

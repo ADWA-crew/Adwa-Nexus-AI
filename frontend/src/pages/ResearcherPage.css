@@ -1,0 +1,87 @@
+/* ============================================================
+   RESEARCHER PAGE — visitor QR companion
+   Uses the global tokens from index.css; #E6AC47 is the page accent.
+   ============================================================ */
+
+.researcher {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 70% 50% at 12% -8%, rgba(230, 172, 71, 0.16), transparent 60%),
+    radial-gradient(ellipse 60% 45% at 92% 12%, rgba(160, 120, 48, 0.14), transparent 55%),
+    linear-gradient(180deg, var(--brown-dark) 0%, var(--brown-deep) 55%);
+}
+
+/* Clears the fixed 80px navbar */
+.researcher__main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: calc(80px + var(--space-xl)) var(--space-lg) var(--space-3xl);
+}
+
+.researcher__stage {
+  scroll-margin-top: 96px;
+}
+
+/* ── Welcome ───────────────────────────────────────────── */
+.rp-welcome {
+  padding-bottom: var(--space-xl);
+  animation: rpFadeUp var(--duration-slow) var(--ease-smooth) both;
+}
+
+.rp-welcome__badge {
+  display: inline-block;
+  padding: 6px 14px;
+  margin-bottom: var(--space-md);
+  border: 1px solid rgba(230, 172, 71, 0.32);
+  border-radius: var(--radius-pill);
+  background: rgba(230, 172, 71, 0.14);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #E6AC47;
+}
+
+.rp-welcome__title {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 7vw, 54px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--cream-primary);
+  margin-bottom: var(--space-md);
+}
+
+.rp-welcome__name {
+  color: #E6AC47;
+  text-shadow: 0 0 32px rgba(230, 172, 71, 0.3);
+}
+
+.rp-welcome__text {
+  max-width: 54ch;
+  font-size: clamp(15px, 2.2vw, 17px);
+  line-height: 1.7;
+  color: var(--cream-muted);
+}
+
+@keyframes rpFadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .researcher__main {
+    padding: calc(68px + var(--space-lg)) var(--space-md) var(--space-2xl);
+  }
+
+  .researcher__stage {
+    scroll-margin-top: 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-welcome {
+    animation: none;
+  }
+}
