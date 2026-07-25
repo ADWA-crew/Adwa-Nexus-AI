@@ -144,117 +144,7 @@
   margin-left: auto;
 }
 
-/* Language selector */
-.nav-lang {
-  position: relative;
-}
-
-.nav-lang__trigger {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  background: var(--white-06);
-  border: 1px solid var(--white-12);
-  color: var(--white-70);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition:
-    background var(--duration-fast),
-    color var(--duration-fast),
-    border-color var(--duration-fast);
-  white-space: nowrap;
-}
-
-.nav-lang__trigger:hover {
-  background: var(--white-12);
-  color: var(--cream-primary);
-  border-color: rgba(212, 168, 67, 0.30);
-}
-
-.nav-lang__globe {
-  display: flex;
-  align-items: center;
-  opacity: 0.7;
-}
-
-.nav-lang__code {
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.nav-lang__chevron {
-  display: flex;
-  align-items: center;
-  opacity: 0.6;
-  transition: transform var(--duration-fast) var(--ease-smooth);
-}
-
-.nav-lang__chevron--open {
-  transform: rotate(180deg);
-}
-
-.nav-lang__dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  min-width: 148px;
-  background: rgba(18, 10, 5, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(212, 168, 67, 0.20);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.60);
-  animation: dropdownReveal var(--duration-normal) var(--ease-smooth);
-}
-
-@keyframes dropdownReveal {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.nav-lang__option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  cursor: pointer;
-  transition: background var(--duration-fast);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.nav-lang__option:last-child {
-  border-bottom: none;
-}
-
-.nav-lang__option:hover {
-  background: var(--white-06);
-}
-
-.nav-lang__option--active {
-  background: rgba(212, 168, 67, 0.10);
-}
-
-.nav-lang__option-code {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--gold-primary);
-  letter-spacing: 0.05em;
-  min-width: 28px;
-}
-
-.nav-lang__option-label {
-  font-size: 13px;
-  color: var(--white-70);
-}
-
-.nav-lang__option--active .nav-lang__option-label {
-  color: var(--cream-primary);
-}
+/* Language selector styles now live in components/common/LanguageSelect.css */
 
 /* Hamburger button */
 .nav-hamburger {
@@ -384,14 +274,5 @@
   .navbar__inner {
     height: 68px;
     gap: 16px;
-  }
-
-  /* Language stays in the top-right corner on mobile; trim the padding */
-  .nav-lang__trigger {
-    padding: 7px 10px;
-  }
-
-  .nav-lang__globe {
-    display: none;
   }
 }

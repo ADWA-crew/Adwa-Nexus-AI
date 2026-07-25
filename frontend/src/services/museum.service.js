@@ -2,5 +2,5 @@
 
 export const museumService = {
   getAll: (params) => api.get('/museums', { params }),
-  getById: (id) => api.get(/museums/\),
+  getById: (id) => api.get(`/museums/${id}`),
 };
