@@ -8,11 +8,15 @@ export const VisitorProvider = ({ children }) => {
 
   /* Stores the payload returned by POST /api/v1/visitors/sessions */
   const startSession = useCallback((data) => {
+    if (data?.token) {
+      localStorage.setItem('visitorToken', data.token);
+    }
     setSession(data);
     setVisitor(data?.visitor ?? null);
   }, []);
 
   const clearSession = useCallback(() => {
+    localStorage.removeItem('visitorToken');
     setSession(null);
     setVisitor(null);
   }, []);
