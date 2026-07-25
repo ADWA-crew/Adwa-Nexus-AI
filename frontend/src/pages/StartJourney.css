@@ -108,6 +108,9 @@
     height: auto;
     min-height: 100dvh;
     overflow: visible;
+    /* The emblem's bloom and drop shadows paint past their box; clip only
+       the axis that would otherwise expose a sideways scroll */
+    overflow-x: clip;
   }
 
   .sj__grid {
@@ -128,8 +131,9 @@
     max-width: 560px;
   }
 
+  /* The vh term keeps the emblem in frame on short landscape viewports */
   .gasha {
-    width: min(300px, 52vw);
+    width: min(300px, 52vw, 46vh);
   }
 }
 
@@ -138,13 +142,14 @@
     padding: 14px 16px;
   }
 
-  /* Keep the form the sole focus on phones */
-  .sj__emblem {
-    display: none;
+  .sj__grid {
+    gap: 22px;
+    padding: 0 16px 40px;
   }
 
-  .sj__grid {
-    padding: 0 16px 40px;
+  /* Emblem stays on phones, sized so the form still opens near the fold */
+  .gasha {
+    width: min(230px, 50vw, 44vh);
   }
 }
 
