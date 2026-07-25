@@ -1,0 +1,220 @@
+/* ============================================================
+   ROUTE DETAILS — stop-by-stop timeline with progress
+   ============================================================ */
+
+.rd__progress {
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  border: 1px solid rgba(230, 172, 71, 0.22);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 10% 20%, rgba(230, 172, 71, 0.12), transparent 60%),
+    rgba(8, 4, 2, 0.45);
+}
+
+.rd__progress-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+}
+
+.rd__progress-count {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--cream-primary);
+}
+
+.rd__progress-time {
+  font-size: 12.5px;
+  color: var(--white-40);
+}
+
+.rd__track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--white-12);
+  overflow: hidden;
+}
+
+.rd__fill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold-muted), #E6AC47);
+  box-shadow: 0 0 12px rgba(230, 172, 71, 0.5);
+  transition: width var(--duration-normal) var(--ease-smooth);
+}
+
+.rd__hint {
+  margin-top: var(--space-sm);
+  font-size: 12.5px;
+  color: var(--white-70);
+}
+
+/* ── Layout ────────────────────────────────────────────── */
+.rd__grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+/* ── Timeline ──────────────────────────────────────────── */
+.rd__stops {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* The line the markers sit on */
+.rd__stops::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 17px;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(230, 172, 71, 0.45),
+    rgba(230, 172, 71, 0.12)
+  );
+}
+
+.rd__stop {
+  position: relative;
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+}
+
+.rd__marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(230, 172, 71, 0.35);
+  background: #1A0D06;
+  color: var(--cream-muted);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.rd__marker:hover {
+  border-color: #E6AC47;
+  color: #E6AC47;
+}
+
+.rd__marker:focus-visible {
+  outline: 2px solid #E6AC47;
+  outline-offset: 3px;
+}
+
+.rd__stop--done .rd__marker {
+  background: linear-gradient(140deg, #E6AC47, var(--gold-muted));
+  border-color: #E6AC47;
+  color: var(--brown-deep);
+}
+
+.rd__stop-body {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--white-06);
+  background: rgba(26, 13, 6, 0.55);
+  transition: border-color var(--duration-fast) var(--ease-smooth),
+              background var(--duration-fast) var(--ease-smooth);
+}
+
+.rd__stop--active .rd__stop-body {
+  border-color: rgba(230, 172, 71, 0.4);
+  background: rgba(46, 26, 14, 0.65);
+}
+
+.rd__stop--done .rd__stop-name {
+  color: var(--white-70);
+}
+
+.rd__stop-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.rd__stop-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--cream-primary);
+}
+
+.rd__stop-meta {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(230, 172, 71, 0.8);
+  white-space: nowrap;
+}
+
+.rd__stop-note {
+  margin-top: 6px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--cream-muted);
+}
+
+.rd__stop-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--space-md);
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(230, 172, 71, 0.35);
+  color: #E6AC47;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+
+.rd__stop-link:hover {
+  background: rgba(230, 172, 71, 0.14);
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .rd__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .rd__stop-body {
+    padding: var(--space-md);
+  }
+
+  .rd__stop-name {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd__fill {
+    transition: none;
+  }
+}

@@ -1,7 +1,9 @@
+import { Link } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import ScanStage from '../components/researcher/ScanStage';
 import { useVisitor } from '../hooks/useVisitor';
 import { useVisitorName } from '../hooks/useVisitorName';
+import { getRoute } from '../data/routes';
 import './TouristPage.css';
 
 export default function TouristPage() {
@@ -30,18 +32,41 @@ export default function TouristPage() {
 
         {routes.length > 0 && (
           <section className="tp-routes" aria-label="Recommended routes">
-            <h2 className="tp-routes__title">Routes picked for you</h2>
+            <div className="tp-routes__head">
+              <h2 className="tp-routes__title">Routes picked for you</h2>
+              <Link className="tp-routes__all" to="/routes">
+                All museum routes
+              </Link>
+            </div>
+
             <ul className="tp-routes__list">
-              {routes.map((route) => (
-                <li key={route.id} className="tp-route">
-                  <h3 className="tp-route__name">{route.title}</h3>
-                  <p className="tp-route__meta">
-                    <span>{route.duration}</span>
-                    <span className="tp-route__dot" aria-hidden="true" />
-                    <span>{route.stops} stops</span>
-                  </p>
-                </li>
-              ))}
+              {routes.map((route) => {
+                const detail = getRoute(route.id);
+
+                const body = (
+                  <>
+                    <h3 className="tp-route__name">{route.title}</h3>
+                    <p className="tp-route__meta">
+                      <span>{detail?.duration ?? route.duration}</span>
+                      <span className="tp-route__dot" aria-hidden="true" />
+                      <span>{detail?.stops.length ?? route.stops} stops</span>
+                    </p>
+                  </>
+                );
+
+                return (
+                  <li key={route.id}>
+                    {detail ? (
+                      <Link className="tp-route tp-route--link" to={`/routes/${route.id}`}>
+                        {body}
+                        <span className="tp-route__open">See the stops</span>
+                      </Link>
+                    ) : (
+                      <div className="tp-route">{body}</div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </section>
         )}

@@ -1,13 +1,15 @@
 ﻿import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import LanguageSelect from '../common/LanguageSelect';
 import { useLanguage } from '../../hooks/useLanguage';
 import './Navbar.css';
 
+/* `to` = real page, `href` = in-page anchor until that page is built */
 const NAV_LINKS = [
-  { label: 'Home',      href: '#home' },
+  { label: 'Home',      to: '/' },
   { label: 'Museums',   href: '#museums' },
   { label: 'Artifacts', href: '#artifacts' },
-  { label: 'Routes',    href: '#routes' },
+  { label: 'Routes',    to: '/routes' },
 ];
 
 const MountainLogo = () => (
@@ -54,7 +56,20 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('Home');
 
+  const { pathname } = useLocation();
   const { setLanguage, activeLanguage, languages } = useLanguage();
+
+  /* Only the hero page hides the links until you scroll past it */
+  const onHome = pathname === '/';
+  const showLinks = scrolled || !onHome;
+
+  /* Keep the highlight in step with the page you are actually on */
+  useEffect(() => {
+    const match = NAV_LINKS.find(
+      ({ to }) => to && (to === '/' ? pathname === '/' : pathname.startsWith(to))
+    );
+    if (match) setActiveLink(match.label);
+  }, [pathname]);
 
   /* Scroll handler — adds glass tint after 60 px */
   useEffect(() => {
@@ -74,31 +89,39 @@ export default function Navbar() {
       <div className="navbar__inner">
 
         {/* ── Logo ── */}
-        <a href="#home" className="nav-logo" aria-label="Adwa Nexus — home">
+        <Link to="/" className="nav-logo" aria-label="Adwa Nexus — home">
           <MountainLogo />
           <span className="nav-logo__text">
             Adwa <em>Nexus</em>
           </span>
-        </a>
+        </Link>
 
         {/* ── Desktop nav links ── */}
         {/* Logic stays intact; links stay hidden while the hero fills the viewport */}
         <nav
-          className={`nav-links${scrolled ? '' : ' nav-links--hidden'}`}
+          className={`nav-links${showLinks ? '' : ' nav-links--hidden'}`}
           aria-label="Primary navigation"
-          aria-hidden={!scrolled}
+          aria-hidden={!showLinks}
         >
-          {NAV_LINKS.map(({ label, href }) => (
-            <a
-              key={label}
-              href={href}
-              className={`nav-links__item${activeLink === label ? ' nav-links__item--active' : ''}`}
-              onClick={() => setActiveLink(label)}
-            >
-              {label}
-              <span className="nav-links__underline" aria-hidden="true" />
-            </a>
-          ))}
+          {NAV_LINKS.map(({ label, href, to }) => {
+            const className = `nav-links__item${activeLink === label ? ' nav-links__item--active' : ''}`;
+            const inner = (
+              <>
+                {label}
+                <span className="nav-links__underline" aria-hidden="true" />
+              </>
+            );
+
+            return to ? (
+              <Link key={label} to={to} className={className} onClick={() => setActiveLink(label)}>
+                {inner}
+              </Link>
+            ) : (
+              <a key={label} href={href} className={className} onClick={() => setActiveLink(label)}>
+                {inner}
+              </a>
+            );
+          })}
         </nav>
 
         {/* ── Actions ── */}
@@ -120,16 +143,20 @@ export default function Navbar() {
       {/* ── Mobile menu overlay ── */}
       <div className={`nav-mobile${mobileOpen ? ' nav-mobile--open' : ''}`} aria-hidden={!mobileOpen}>
         <nav className="nav-mobile__links" aria-label="Mobile navigation">
-          {NAV_LINKS.map(({ label, href }) => (
-            <a
-              key={label}
-              href={href}
-              className={`nav-mobile__item${activeLink === label ? ' nav-mobile__item--active' : ''}`}
-              onClick={() => { setActiveLink(label); setMobileOpen(false); }}
-            >
-              {label}
-            </a>
-          ))}
+          {NAV_LINKS.map(({ label, href, to }) => {
+            const className = `nav-mobile__item${activeLink === label ? ' nav-mobile__item--active' : ''}`;
+            const close = () => { setActiveLink(label); setMobileOpen(false); };
+
+            return to ? (
+              <Link key={label} to={to} className={className} onClick={close}>
+                {label}
+              </Link>
+            ) : (
+              <a key={label} href={href} className={className} onClick={close}>
+                {label}
+              </a>
+            );
+          })}
         </nav>
 
         <div className="nav-mobile__footer">

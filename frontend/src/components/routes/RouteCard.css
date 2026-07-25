@@ -1,0 +1,122 @@
+/* ============================================================
+   ROUTE CARD — one museum route in the list
+   ============================================================ */
+
+.rc {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-lg);
+  border: 1px solid var(--white-12);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(160deg, rgba(230, 172, 71, 0.06), transparent 55%),
+    rgba(26, 13, 6, 0.66);
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              border-color var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth);
+}
+
+.rc:hover {
+  transform: translateY(-3px);
+  border-color: rgba(230, 172, 71, 0.42);
+  box-shadow: var(--shadow-gold);
+}
+
+.rc--recommended {
+  border-color: rgba(230, 172, 71, 0.5);
+}
+
+.rc__flag {
+  position: absolute;
+  top: -10px;
+  left: var(--space-lg);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, #E6AC47, var(--gold-muted));
+  color: var(--brown-deep);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rc__audience {
+  display: inline-block;
+  margin-bottom: var(--space-sm);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #E6AC47;
+}
+
+.rc__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--cream-primary);
+}
+
+.rc__tagline {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--white-70);
+}
+
+/* ── Meta row ──────────────────────────────────────────── */
+.rc__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-md);
+  margin: var(--space-lg) 0;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--white-06);
+  font-size: 12.5px;
+  color: var(--cream-muted);
+}
+
+.rc__meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rc__meta svg {
+  color: rgba(230, 172, 71, 0.85);
+}
+
+.rc__meta-floors {
+  color: var(--white-40);
+}
+
+/* ── Action ────────────────────────────────────────────── */
+.rc__open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: auto;
+  min-height: 44px;
+  padding: 0 var(--space-lg);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(230, 172, 71, 0.4);
+  background: rgba(230, 172, 71, 0.1);
+  color: #E6AC47;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+
+.rc__open:hover {
+  background: rgba(230, 172, 71, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rc:hover {
+    transform: none;
+  }
+}

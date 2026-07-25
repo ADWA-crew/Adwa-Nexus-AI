@@ -1,0 +1,122 @@
+/* ============================================================
+   ROUTES PAGE — every way to walk the museum
+   ============================================================ */
+
+.rt {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 70% 50% at 12% -8%, rgba(230, 172, 71, 0.16), transparent 60%),
+    linear-gradient(180deg, var(--brown-dark) 0%, var(--brown-deep) 55%);
+}
+
+.rt__main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: calc(80px + var(--space-xl)) var(--space-lg) var(--space-3xl);
+}
+
+/* ── Header ────────────────────────────────────────────── */
+.rt__head {
+  padding-bottom: var(--space-xl);
+  animation: rtFade var(--duration-slow) var(--ease-smooth) both;
+}
+
+.rt__badge {
+  display: inline-block;
+  padding: 6px 14px;
+  margin-bottom: var(--space-md);
+  border: 1px solid rgba(230, 172, 71, 0.32);
+  border-radius: var(--radius-pill);
+  background: rgba(230, 172, 71, 0.14);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #E6AC47;
+}
+
+.rt__title {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 7vw, 54px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--cream-primary);
+  margin-bottom: var(--space-md);
+}
+
+.rt__text {
+  max-width: 56ch;
+  font-size: clamp(15px, 2.2vw, 17px);
+  line-height: 1.7;
+  color: var(--cream-muted);
+}
+
+/* ── Filters ───────────────────────────────────────────── */
+.rt__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+}
+
+.rt__filter {
+  min-height: 40px;
+  padding: 0 var(--space-lg);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--white-12);
+  background: var(--white-06);
+  color: var(--white-70);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.rt__filter:hover {
+  color: var(--cream-primary);
+  border-color: rgba(230, 172, 71, 0.4);
+}
+
+.rt__filter--on {
+  background: rgba(230, 172, 71, 0.18);
+  border-color: #E6AC47;
+  color: #E6AC47;
+}
+
+/* ── List ──────────────────────────────────────────────── */
+.rt__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: var(--space-lg);
+  animation: rtFade var(--duration-slow) var(--ease-smooth) 80ms both;
+}
+
+.rt__list > li {
+  display: flex;
+}
+
+.rt__empty {
+  padding: var(--space-2xl);
+  text-align: center;
+  border: 1px dashed var(--white-12);
+  border-radius: var(--radius-lg);
+  color: var(--white-70);
+}
+
+@keyframes rtFade {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .rt__main {
+    padding: calc(68px + var(--space-lg)) var(--space-md) var(--space-2xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rt__head,
+  .rt__list {
+    animation: none;
+  }
+}

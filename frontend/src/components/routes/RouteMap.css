@@ -1,0 +1,86 @@
+/* ============================================================
+   ROUTE MAP — level diagram for a route
+   ============================================================ */
+
+.rm {
+  padding: var(--space-lg);
+  border: 1px solid var(--white-12);
+  border-radius: var(--radius-lg);
+  background: rgba(8, 4, 2, 0.42);
+}
+
+.rm__title {
+  margin-bottom: var(--space-md);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white-40);
+}
+
+.rm__floors {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.rm__floor {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border-left: 2px solid rgba(230, 172, 71, 0.45);
+  background: rgba(26, 13, 6, 0.6);
+}
+
+.rm__floor-name {
+  flex: 1;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--cream-primary);
+}
+
+.rm__dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.rm__dot {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--white-12);
+  background: var(--white-06);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--white-70);
+}
+
+.rm__dot--active {
+  border-color: #E6AC47;
+  background: rgba(230, 172, 71, 0.2);
+  color: #E6AC47;
+}
+
+.rm__start {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--white-06);
+  font-size: 13px;
+  color: var(--cream-muted);
+}
+
+.rm__start span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(230, 172, 71, 0.85);
+}
