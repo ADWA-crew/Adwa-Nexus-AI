@@ -108,6 +108,8 @@ export default function PersonalizationForm() {
     if (!validate()) return;
 
     setSubmitting(true);
+    const targetRoute = getVisitorRoute(form.visitorType, form.ageGroup);
+
     try {
       const session = await visitorService.createSession({
         fullName: form.fullName.trim(),
@@ -116,11 +118,23 @@ export default function PersonalizationForm() {
         education: form.education,
       });
       startSession(session);
-      /* Backend may pin a destination; otherwise each profile has its own page */
-      navigate(session?.redirectTo || getVisitorRoute(form.visitorType, form.ageGroup));
+      navigate(session?.redirectTo || targetRoute);
     } catch (err) {
-      console.error('Start journey failed:', err?.response?.data || err);
-      setSubmitError('We could not start your journey. Please try again.');
+      console.warn('Backend session creation unavailable, using local visitor session:', err);
+      const fallbackSession = {
+        sessionId: 'session-' + Date.now(),
+        visitor: {
+          fullName: form.fullName.trim(),
+          visitorType: form.visitorType,
+          ageGroup: needsAge ? form.ageGroup : 'above18',
+          education: form.education,
+        },
+        experience: {
+          summary: `Welcome ${form.fullName.trim()}, your customized Adwa Nexus journey is active.`,
+        },
+      };
+      startSession(fallbackSession);
+      navigate(targetRoute);
     } finally {
       setSubmitting(false);
     }

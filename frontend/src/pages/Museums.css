@@ -1,0 +1,205 @@
+/* ============================================================
+   MUSEUMS PAGE
+   ============================================================ */
+
+.mus-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 70% 50% at 12% -8%, rgba(230, 172, 71, 0.16), transparent 60%),
+    linear-gradient(180deg, var(--brown-dark) 0%, var(--brown-deep) 55%);
+}
+
+.mus-main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: calc(80px + var(--space-xl)) var(--space-lg) var(--space-3xl);
+}
+
+.mus-head {
+  padding-bottom: var(--space-xl);
+}
+
+.mus-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  margin-bottom: var(--space-md);
+  border: 1px solid rgba(230, 172, 71, 0.32);
+  border-radius: var(--radius-pill);
+  background: rgba(230, 172, 71, 0.14);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #E6AC47;
+}
+
+.mus-title {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 7vw, 52px);
+  font-weight: 700;
+  color: var(--cream-primary);
+  margin-bottom: var(--space-md);
+}
+
+.mus-text {
+  max-width: 58ch;
+  font-size: clamp(15px, 2.2vw, 17px);
+  line-height: 1.7;
+  color: var(--cream-muted);
+}
+
+.mus-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+}
+
+.mus-card {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--white-12);
+  background: rgba(26, 13, 6, 0.65);
+  overflow: hidden;
+  transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.mus-card:hover {
+  border-color: rgba(230, 172, 71, 0.45);
+}
+
+.mus-card__media {
+  position: relative;
+  height: 100%;
+  min-height: 240px;
+}
+
+.mus-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mus-card__flag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, #E6AC47, var(--gold-muted));
+  color: var(--brown-deep);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mus-card__body {
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+}
+
+.mus-card__cat {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #E6AC47;
+  margin-bottom: 4px;
+}
+
+.mus-card__name {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--cream-primary);
+}
+
+.mus-card__loc {
+  font-size: 13px;
+  color: var(--white-70);
+  margin: 4px 0 var(--space-md);
+}
+
+.mus-card__desc {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--cream-muted);
+  margin-bottom: var(--space-md);
+}
+
+.mus-card__highlights {
+  margin-top: auto;
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.mus-card__hl-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(230, 172, 71, 0.85);
+  margin-bottom: 6px;
+}
+
+.mus-card__highlights ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px var(--space-md);
+}
+
+.mus-card__highlights li {
+  font-size: 13px;
+  color: var(--cream-primary);
+}
+
+.mus-card__footer {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.mus-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.mus-btn--primary {
+  border: 1px solid #E6AC47;
+  background: rgba(230, 172, 71, 0.16);
+  color: #E6AC47;
+}
+
+.mus-btn--primary:hover {
+  background: rgba(230, 172, 71, 0.28);
+}
+
+.mus-btn--ghost {
+  border: 1px solid var(--white-12);
+  color: var(--cream-primary);
+}
+
+.mus-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 800px) {
+  .mus-card {
+    grid-template-columns: 1fr;
+  }
+
+  .mus-card__media {
+    height: 200px;
+  }
+}

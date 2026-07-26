@@ -8,8 +8,8 @@ import './Navbar.css';
 /* `to` = real page, `href` = in-page anchor until that page is built */
 const NAV_LINKS = [
   { label: 'Home',      to: '/' },
-  { label: 'Museums',   href: '#museums' },
-  { label: 'Artifacts', href: '#artifacts' },
+  { label: 'Museums',   to: '/museums' },
+  { label: 'Artifacts', to: '/artifacts' },
   { label: 'Progress',  to: '/routes' },
 ];
 
