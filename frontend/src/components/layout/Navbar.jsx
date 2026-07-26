@@ -7,10 +7,10 @@ import './Navbar.css';
 
 /* `to` = real page, `href` = in-page anchor until that page is built */
 const NAV_LINKS = [
-  { label: 'Home',      to: '/' },
-  { label: 'Museums',   to: '/museums' },
-  { label: 'Artifacts', to: '/artifacts' },
-  { label: 'Progress',  to: '/routes' },
+  { label: 'Home',      to: '/',        icon: '🏠' },
+  { label: 'Museums',   to: '/museums',  icon: '🏛️' },
+  { label: 'Artifacts', to: '/artifacts',icon: '📜' },
+  { label: 'Progress',  to: '/routes',   icon: '🗺️' },
 ];
 
 const MenuIcon = ({ open }) => (
@@ -27,6 +27,13 @@ const MenuIcon = ({ open }) => (
         <line x1="3" y1="17" x2="21" y2="17" />
       </>
     )}
+  </svg>
+);
+
+const CloseIcon = () => (
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
 
@@ -57,11 +64,13 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* Lock body scroll when mobile menu is open */
+  /* Lock body scroll when mobile slider is open */
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
+
+  const closeMobile = () => setMobileOpen(false);
 
   return (
     <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}`} role="banner">
@@ -76,7 +85,6 @@ export default function Navbar() {
         </Link>
 
         {/* ── Desktop nav links ── */}
-        {/* Logic stays intact; links stay hidden while the hero fills the viewport */}
         <nav
           className={`nav-links${showLinks ? '' : ' nav-links--hidden'}`}
           aria-label="Primary navigation"
@@ -107,51 +115,116 @@ export default function Navbar() {
         <div className="nav-actions">
           <LanguageSelect />
 
-          {/* Mobile hamburger */}
+          {/* Mobile hamburger button */}
           <button
             className="nav-hamburger"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-label={mobileOpen ? 'Close navigation slider' : 'Open navigation slider'}
           >
             <MenuIcon open={mobileOpen} />
           </button>
         </div>
       </div>
 
-      {/* ── Mobile menu overlay ── */}
-      <div className={`nav-mobile${mobileOpen ? ' nav-mobile--open' : ''}`} aria-hidden={!mobileOpen}>
-        <nav className="nav-mobile__links" aria-label="Mobile navigation">
-          {NAV_LINKS.map(({ label, href, to }) => {
-            const className = `nav-mobile__item${activeLink === label ? ' nav-mobile__item--active' : ''}`;
-            const close = () => { setActiveLink(label); setMobileOpen(false); };
+      {/* ── Mobile Slide-out Drawer / Slider Overlay ── */}
+      {mobileOpen && (
+        <div
+          className="nav-mobile-backdrop"
+          onClick={closeMobile}
+          aria-hidden="true"
+        />
+      )}
 
-            return to ? (
-              <Link key={label} to={to} className={className} onClick={close}>
-                {label}
-              </Link>
-            ) : (
-              <a key={label} href={href} className={className} onClick={close}>
-                {label}
-              </a>
-            );
-          })}
+      <aside
+        className={`nav-mobile-slider ${mobileOpen ? 'nav-mobile-slider--open' : ''}`}
+        aria-label="Mobile navigation drawer"
+        aria-hidden={!mobileOpen}
+      >
+        {/* Slider Header */}
+        <div className="nav-mobile-slider__header">
+          <Link to="/" className="nav-logo" onClick={closeMobile}>
+            <img src={adwaLogo} alt="Battle of Adwa Logo" className="nav-logo__img" />
+            <span className="nav-logo__text">
+              Adwa <em>Nexus</em>
+            </span>
+          </Link>
+
+          <button
+            type="button"
+            className="nav-mobile-slider__close"
+            onClick={closeMobile}
+            aria-label="Close menu"
+          >
+            <CloseIcon />
+          </button>
+        </div>
+
+        {/* Slider Navigation Links */}
+        <nav className="nav-mobile-slider__nav">
+          <span className="nav-mobile-slider__section-title">Navigation</span>
+          <ul className="nav-mobile-slider__list">
+            {NAV_LINKS.map(({ label, href, to, icon }) => {
+              const isActive = activeLink === label;
+              const linkClass = `nav-mobile-slider__link ${isActive ? 'nav-mobile-slider__link--active' : ''}`;
+
+              return (
+                <li key={label}>
+                  {to ? (
+                    <Link to={to} className={linkClass} onClick={closeMobile}>
+                      <span className="nav-mobile-slider__link-icon">{icon}</span>
+                      <span className="nav-mobile-slider__link-text">{label}</span>
+                      {isActive && <span className="nav-mobile-slider__link-dot" />}
+                    </Link>
+                  ) : (
+                    <a href={href} className={linkClass} onClick={closeMobile}>
+                      <span className="nav-mobile-slider__link-icon">{icon}</span>
+                      <span className="nav-mobile-slider__link-text">{label}</span>
+                    </a>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </nav>
 
-        <div className="nav-mobile__footer">
-          <div className="nav-mobile__lang">
+        {/* Slider AI Concierge & Quick Action Card */}
+        <div className="nav-mobile-slider__ai-card">
+          <div className="nav-mobile-slider__ai-head">
+            <span className="nav-mobile-slider__ai-badge">🤖 Adwa AI Concierge</span>
+            <span className="nav-mobile-slider__ai-pulse" />
+          </div>
+          <h4 className="nav-mobile-slider__ai-title">Smart Museum Assistant</h4>
+          <p className="nav-mobile-slider__ai-desc">
+            Get instant multilingual answers, directions, or audio guide narration for any exhibit.
+          </p>
+          <div className="nav-mobile-slider__ai-actions">
+            <Link to="/start-journey" className="nav-mobile-slider__ai-btn" onClick={closeMobile}>
+              ⚡ Start Personal Journey
+            </Link>
+          </div>
+        </div>
+
+        {/* Slider Footer / Language Switcher */}
+        <div className="nav-mobile-slider__footer">
+          <span className="nav-mobile-slider__section-title">Select Language</span>
+          <div className="nav-mobile-slider__lang-grid">
             {languages.map((lang) => (
               <button
                 key={lang.value}
-                className={`nav-mobile__lang-btn${lang.value === activeLanguage.value ? ' nav-mobile__lang-btn--active' : ''}`}
+                type="button"
+                className={`nav-mobile-slider__lang-btn ${
+                  lang.value === activeLanguage.value ? 'nav-mobile-slider__lang-btn--active' : ''
+                }`}
                 onClick={() => setLanguage(lang.value)}
               >
-                {lang.code}
+                <span>{lang.code}</span>
+                <small>{lang.label}</small>
               </button>
             ))}
           </div>
         </div>
-      </div>
+      </aside>
     </header>
   );
 }
