@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { label: 'Home',      to: '/' },
   { label: 'Museums',   href: '#museums' },
   { label: 'Artifacts', href: '#artifacts' },
-  { label: 'Routes',    to: '/routes' },
+  { label: 'Progress',  to: '/routes' },
 ];
 
 const MountainLogo = () => (

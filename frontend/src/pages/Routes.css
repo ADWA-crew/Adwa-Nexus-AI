@@ -1,5 +1,5 @@
 /* ============================================================
-   ROUTES PAGE — every way to walk the museum
+   ROUTES & PROGRESS PAGE — Visitor Journey Map & Curated Routes
    ============================================================ */
 
 .rt {
@@ -17,7 +17,7 @@
 
 /* ── Header ────────────────────────────────────────────── */
 .rt__head {
-  padding-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
   animation: rtFade var(--duration-slow) var(--ease-smooth) both;
 }
 
@@ -37,7 +37,7 @@
 
 .rt__title {
   font-family: var(--font-display);
-  font-size: clamp(34px, 7vw, 54px);
+  font-size: clamp(32px, 6vw, 50px);
   font-weight: 700;
   line-height: 1.1;
   color: var(--cream-primary);
@@ -45,13 +45,50 @@
 }
 
 .rt__text {
-  max-width: 56ch;
+  max-width: 60ch;
   font-size: clamp(15px, 2.2vw, 17px);
   line-height: 1.7;
   color: var(--cream-muted);
 }
 
-/* ── Filters ───────────────────────────────────────────── */
+/* ── Main Section View Tabs ───────────────────────────── */
+.rt__view-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0 var(--space-xl);
+  padding: 6px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--white-12);
+  background: rgba(18, 9, 4, 0.65);
+  width: fit-content;
+}
+
+.rt__view-btn {
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--white-70);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.rt__view-btn:hover {
+  color: var(--cream-primary);
+}
+
+.rt__view-btn--active {
+  border-color: rgba(230, 172, 71, 0.5);
+  background: linear-gradient(135deg, rgba(230, 172, 71, 0.25), rgba(139, 94, 20, 0.4));
+  color: #E6AC47;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Filters for Curated Routes ──────────────────────── */
 .rt__filters {
   display: flex;
   flex-wrap: wrap;
@@ -69,6 +106,7 @@
   font-family: var(--font-body);
   font-size: 13.5px;
   font-weight: 500;
+  cursor: pointer;
   transition: all var(--duration-fast) var(--ease-smooth);
 }
 
@@ -111,6 +149,17 @@
 @media (max-width: 768px) {
   .rt__main {
     padding: calc(68px + var(--space-lg)) var(--space-md) var(--space-2xl);
+  }
+
+  .rt__view-tabs {
+    width: 100%;
+  }
+
+  .rt__view-btn {
+    flex: 1;
+    text-align: center;
+    padding: 10px var(--space-sm);
+    font-size: 13px;
   }
 }
 

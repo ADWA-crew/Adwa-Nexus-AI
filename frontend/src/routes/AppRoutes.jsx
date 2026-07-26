@@ -23,6 +23,7 @@ const AppRoutes = () => (
     <Route path='/artifacts' element={<Artifacts />} />
     <Route path='/artifacts/:id' element={<ArtifactDetails />} />
     <Route path='/routes' element={<RoutesList />} />
+    <Route path='/progress' element={<RoutesList />} />
     <Route path='/routes/:id' element={<RouteDetails />} />
     <Route path='/profile' element={<VisitorProfile />} />
     <Route path='/researcher' element={<ResearcherPage />} />
