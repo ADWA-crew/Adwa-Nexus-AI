@@ -1,0 +1,572 @@
+/* ============================================================
+   ARTIFACTS PAGE — EDITORIAL MAGAZINE & LUXURY MUSEUM STYLING
+   High-End Cultural Exhibition Layout with Textured Paper Cards
+   ============================================================ */
+
+.art-page {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--brown-deep, #0E0704);
+  color: var(--cream-primary, #F5EDD8);
+  font-family: var(--font-body, system-ui, sans-serif);
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 80px;
+}
+
+/* Base Noised Paper Card Grain Overlay */
+.art-paper-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 350ms ease,
+              border-color 300ms ease;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55),
+              0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.art-paper-card:hover {
+  transform: translateY(-8px) scale(1.012);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.70),
+              0 0 40px rgba(212, 168, 67, 0.25);
+}
+
+.art-paper-card__grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.16;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Color Themes for Paper Cards */
+.art-paper-card--parchment {
+  background: radial-gradient(circle at 30% 20%, #F6EDE0 0%, #E3D3C1 100%);
+  border: 1px solid rgba(212, 168, 67, 0.40);
+  color: #1A0D06;
+}
+
+.art-paper-card--ochre {
+  background: radial-gradient(circle at 20% 30%, #D4A843 0%, #B88A28 100%);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  color: #0E0704;
+}
+
+.art-paper-card--terracotta {
+  background: radial-gradient(circle at 30% 20%, #A83E26 0%, #7A2814 100%);
+  border: 1px solid rgba(245, 237, 216, 0.30);
+  color: #F5EDD8;
+}
+
+.art-paper-card--charcoal {
+  background: radial-gradient(circle at 40% 10%, #281D14 0%, #120A05 100%);
+  border: 1px solid rgba(212, 168, 67, 0.28);
+  color: #F5EDD8;
+}
+
+/* ── 1. EDITORIAL HERO SECTION ── */
+.art-hero {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 120px 24px 60px;
+}
+
+.art-hero__container {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.art-hero__left {
+  display: flex;
+  flex-direction: column;
+}
+
+.art-hero__kicker {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-primary, #C9A453);
+  margin-bottom: 12px;
+}
+
+.art-hero__heading {
+  font-family: var(--font-display, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  line-height: 1.1;
+  color: var(--cream-primary, #F5EDD8);
+  letter-spacing: -0.02em;
+  margin-bottom: 36px;
+}
+
+.art-hero__heading-accent {
+  font-style: italic;
+  color: var(--gold-bright, #D4A843);
+  font-weight: 400;
+}
+
+.art-hero__heading-script {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #FFF;
+  text-decoration: underline decoration-color(var(--gold-primary, #C9A453));
+}
+
+/* Mini Parchment Paper Card in Hero Left */
+.art-hero__paper-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  max-width: 480px;
+}
+
+.art-paper-card__content {
+  flex: 1;
+  z-index: 2;
+}
+
+.art-paper-card__tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  background: #1A0D06;
+  color: #D4A843;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.art-paper-card__title {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+
+.art-paper-card__text {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: #3D2412;
+  margin-bottom: 12px;
+}
+
+.art-paper-card__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.80rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1A0D06;
+  transition: transform 250ms ease;
+}
+
+.art-paper-card:hover .art-paper-card__btn svg {
+  transform: translateX(6px);
+}
+
+.art-paper-card__img-wrap {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #1A0D06;
+  z-index: 2;
+}
+
+.art-paper-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.08) brightness(0.95);
+  transition: transform 400ms ease;
+}
+
+.art-paper-card:hover .art-paper-card__img {
+  transform: scale(1.08);
+}
+
+/* Big Ochre Paper Card in Hero Right */
+.art-hero__big-paper {
+  display: flex;
+  padding: 36px 32px;
+  position: relative;
+  min-height: 380px;
+}
+
+.art-hero__big-content {
+  flex: 1;
+  max-width: 62%;
+  z-index: 2;
+}
+
+.art-hero__big-badge {
+  display: inline-block;
+  font-size: 0.70rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: #0E0704;
+  color: #D4A843;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.art-hero__big-title {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+  line-height: 1.2;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #0E0704;
+}
+
+.art-hero__big-desc {
+  font-size: 0.90rem;
+  line-height: 1.55;
+  color: #2E1A0E;
+  margin-bottom: 24px;
+}
+
+.art-hero__big-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #0E0704;
+  color: #F5EDD8;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: all 250ms ease;
+}
+
+.art-hero__big-paper:hover .art-hero__big-btn {
+  background: #2E1A0E;
+  color: #FFF;
+  transform: translateX(4px);
+}
+
+.art-hero__big-figure {
+  position: absolute;
+  right: -10px;
+  bottom: 0;
+  top: 0;
+  width: 44%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.art-hero__big-img {
+  max-height: 112%;
+  object-fit: contain;
+  object-position: bottom right;
+  filter: drop-shadow(-8px 8px 16px rgba(0, 0, 0, 0.40)) contrast(1.08) brightness(0.95);
+  transition: transform 500ms ease;
+}
+
+.art-hero__big-paper:hover .art-hero__big-img {
+  transform: scale(1.05);
+}
+
+/* ── 2. FEATURED QUOTE BANNER ── */
+.art-quote-banner {
+  width: 100%;
+  max-width: 1320px;
+  margin: 30px auto 60px;
+  padding: 0 24px;
+}
+
+.art-quote-banner__paper {
+  padding: 36px 32px;
+}
+
+.art-quote-banner__inner {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  z-index: 2;
+  position: relative;
+}
+
+.art-quote-banner__symbol {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 4rem;
+  line-height: 1;
+  font-weight: 900;
+  color: #0E0704;
+  opacity: 0.85;
+}
+
+.art-quote-banner__content {
+  flex: 1;
+}
+
+.art-quote-banner__text {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  line-height: 1.35;
+  font-weight: 700;
+  color: #0E0704;
+  margin-bottom: 8px;
+}
+
+.art-quote-banner__author-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1A0D06;
+}
+
+.art-quote-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #0E0704;
+  color: #F5EDD8;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 250ms ease;
+  white-space: nowrap;
+}
+
+.art-quote-banner__btn:hover {
+  background: #2E1A0E;
+  color: #FFF;
+  transform: translateX(4px);
+}
+
+/* ── 3. EDITORIAL EXHIBITION PROGRAM CARDS ── */
+.art-programs {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
+}
+
+.art-programs__header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.art-programs__kicker {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-primary, #C9A453);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.art-programs__title {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  color: var(--cream-primary, #F5EDD8);
+}
+
+.art-programs__title em {
+  font-style: italic;
+  color: var(--gold-bright, #D4A843);
+}
+
+.art-programs__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.art-program-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 24px;
+  min-height: 480px;
+}
+
+.art-program-card__header-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  z-index: 2;
+  position: relative;
+}
+
+.art-program-card__img-box {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: #0E0704;
+  z-index: 2;
+  position: relative;
+}
+
+.art-program-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.08) brightness(0.95);
+  transition: transform 500ms ease;
+}
+
+.art-program-card:hover .art-program-card__img {
+  transform: scale(1.08);
+}
+
+.art-program-card__tag {
+  display: inline-block;
+  font-size: 0.70rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  background: rgba(14, 7, 4, 0.85);
+  color: var(--gold-bright, #D4A843);
+  z-index: 2;
+  position: relative;
+}
+
+.art-program-card__heading {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 1.35rem;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  z-index: 2;
+  position: relative;
+}
+
+.art-program-card__subtext {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  opacity: 0.88;
+  z-index: 2;
+  position: relative;
+}
+
+.art-program-card__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 2;
+  position: relative;
+  transition: all 250ms ease;
+}
+
+.art-paper-card--terracotta .art-program-card__btn {
+  background: #F5EDD8;
+  color: #7A2814;
+}
+
+.art-paper-card--charcoal .art-program-card__btn {
+  background: rgba(212, 168, 67, 0.18);
+  color: var(--gold-bright, #D4A843);
+  border: 1px solid rgba(212, 168, 67, 0.45);
+}
+
+.art-paper-card--parchment .art-program-card__btn {
+  background: #1A0D06;
+  color: #F5EDD8;
+}
+
+.art-program-card:hover .art-program-card__btn svg {
+  transform: translateX(6px);
+}
+
+/* ── MOBILE RESPONSIVENESS ── */
+@media (max-width: 1024px) {
+  .art-hero__container {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .art-programs__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .art-quote-banner__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .art-quote-banner__btn {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .art-hero {
+    padding: 90px 16px 40px;
+  }
+
+  .art-hero__paper-card {
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 100%;
+  }
+
+  .art-hero__big-paper {
+    padding: 24px 20px;
+    min-height: auto;
+  }
+
+  .art-hero__big-content {
+    max-width: 100%;
+  }
+
+  .art-hero__big-figure {
+    display: none;
+  }
+
+  .art-program-card {
+    min-height: auto;
+    padding: 24px 18px;
+  }
+}
