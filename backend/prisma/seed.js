@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+<<<<<<< HEAD
 import {
   PrismaClient,
   ArtifactStatus,
@@ -217,84 +218,132 @@ const OBJECTS = [
   },
 ];
 
+=======
+import { PrismaClient, ArtifactStatus, MuseumStatus, Role } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 const ROUTES = [
   {
     id: 'seed-route-adwa-kids',
     slug: 'r-adwa-kids',
     title: 'Heroes of Adwa',
     duration: '35 min',
+<<<<<<< HEAD
     profile: 'minor',
     description: 'Story-led path for young explorers.',
     stopSlugs: ['adwa-victory', 'empress-taytu', 'menelik-ii', 'warrior-shield'],
+=======
+    stops: 6,
+    profile: 'minor',
+    description: 'Story-led path for young explorers.',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   },
   {
     id: 'seed-route-lucy-kids',
     slug: 'r-lucy-kids',
     title: 'Meet Lucy the Ancestor',
     duration: '25 min',
+<<<<<<< HEAD
     profile: 'minor',
     description: 'A short intro to deep history for children.',
     stopSlugs: ['warrior-shield', 'battle-standard'],
+=======
+    stops: 4,
+    profile: 'minor',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   },
   {
     id: 'seed-route-crowns',
     slug: 'r-crowns',
     title: 'Crowns, Shields and Kings',
     duration: '30 min',
+<<<<<<< HEAD
     profile: 'minor',
     description: 'Objects that tell royal and warrior stories.',
     stopSlugs: ['royal-crown', 'warrior-shield', 'menelik-ii'],
+=======
+    stops: 5,
+    profile: 'minor',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   },
   {
     id: 'seed-route-adwa-archive',
     slug: 'r-adwa-archive',
     title: 'Adwa 1896: Primary Sources',
     duration: '90 min',
+<<<<<<< HEAD
     profile: 'research',
     description: 'Deep dive for researchers and students.',
     stopSlugs: ['adwa-victory', 'geez-manuscript', 'empress-taytu', 'menelik-ii'],
+=======
+    stops: 14,
+    profile: 'research',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   },
   {
     id: 'seed-route-aksum',
     slug: 'r-aksum',
     title: 'Aksumite Steles and Inscriptions',
     duration: '75 min',
+<<<<<<< HEAD
     profile: 'research',
     description: 'Context trail linking empire and writing traditions.',
     stopSlugs: ['geez-manuscript', 'royal-crown'],
+=======
+    stops: 11,
+    profile: 'research',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   },
   {
     id: 'seed-route-manuscripts',
     slug: 'r-manuscripts',
     title: "Ge'ez Manuscript Collection",
     duration: '80 min',
+<<<<<<< HEAD
     profile: 'research',
     description: 'Catalogue-focused reading room path.',
     stopSlugs: ['geez-manuscript', 'adwa-victory'],
+=======
+    stops: 9,
+    profile: 'research',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   },
   {
     id: 'seed-route-adwa-story',
     slug: 'r-adwa-story',
     title: 'The Road to Adwa',
     duration: '55 min',
+<<<<<<< HEAD
     profile: 'tourist',
     description: 'Narrative walkthrough of Ethiopia’s defining victory.',
     stopSlugs: ['adwa-victory', 'menelik-ii', 'empress-taytu', 'battle-standard'],
+=======
+    stops: 9,
+    profile: 'tourist',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   },
   {
     id: 'seed-route-lalibela',
     slug: 'r-lalibela',
     title: 'Rock-Hewn Lalibela',
     duration: '60 min',
+<<<<<<< HEAD
     profile: 'tourist',
     description: 'Faith, stone and highland architecture.',
     stopSlugs: ['geez-manuscript', 'royal-crown'],
+=======
+    stops: 8,
+    profile: 'tourist',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   },
   {
     id: 'seed-route-highlands',
     slug: 'r-highlands',
     title: 'Highland Heritage Trail',
     duration: '45 min',
+<<<<<<< HEAD
     profile: 'tourist',
     description: 'A compact greatest-hits route through the halls.',
     stopSlugs: ['adwa-victory', 'warrior-shield', 'battle-standard', 'menelik-ii'],
@@ -344,6 +393,13 @@ async function upsertArtifact(museumId, artifact) {
   });
 }
 
+=======
+    stops: 7,
+    profile: 'tourist',
+  },
+];
+
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 async function main() {
   const passwordHash = await bcrypt.hash('Admin123!', 10);
 
@@ -359,6 +415,7 @@ async function main() {
   });
 
   const museum = await prisma.museum.upsert({
+<<<<<<< HEAD
     where: { id: MUSEUM_ID },
     update: {
       name: 'Adwa Victory Memorial Museum',
@@ -382,6 +439,14 @@ async function main() {
       name: 'Adwa Victory Memorial Museum',
       description:
         'A living memorial to the Battle of Adwa and the heritage of Ethiopian sovereignty.',
+=======
+    where: { id: 'seed-museum-adwa' },
+    update: {},
+    create: {
+      id: 'seed-museum-adwa',
+      name: 'Adwa Victory Memorial Museum',
+      description: 'A museum celebrating Ethiopian heritage and the Battle of Adwa.',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
       address: 'Addis Ababa, Ethiopia',
       status: MuseumStatus.ACTIVE,
       openingHours: {
@@ -396,6 +461,7 @@ async function main() {
     },
   });
 
+<<<<<<< HEAD
   for (const gallery of GALLERIES) {
     await prisma.gallery.upsert({
       where: { id: gallery.id },
@@ -409,10 +475,84 @@ async function main() {
       create: {
         ...gallery,
         museumId: museum.id,
+=======
+  const gallery = await prisma.gallery.upsert({
+    where: { id: 'seed-gallery-main' },
+    update: {},
+    create: {
+      id: 'seed-gallery-main',
+      museumId: museum.id,
+      name: 'Main Hall',
+      description: 'Primary exhibition hall',
+      floor: '1',
+      room: 'A',
+    },
+  });
+
+  const artifacts = [
+    {
+      id: 'seed-artifact-shield',
+      title: 'Warrior Shield',
+      description: 'Traditional shield used during the Battle of Adwa.',
+      era: '19th century',
+      category: 'weapons',
+      location: 'Hall A-1',
+    },
+    {
+      id: 'seed-artifact-crown',
+      title: 'Royal Crown Replica',
+      description: 'Symbolic crown representing Ethiopian monarchy.',
+      era: '19th century',
+      category: 'royalty',
+      location: 'Hall A-2',
+    },
+    {
+      id: 'seed-artifact-manuscript',
+      title: "Ge'ez Manuscript",
+      description: "Historical manuscript in Ge'ez script.",
+      era: '18th century',
+      category: 'manuscripts',
+      location: 'Hall A-3',
+    },
+    {
+      id: 'seed-artifact-flag',
+      title: 'Battle Standard',
+      description: 'Flag associated with Ethiopian forces at Adwa.',
+      era: '19th century',
+      category: 'symbols',
+      location: 'Hall A-4',
+    },
+  ];
+
+  for (const artifact of artifacts) {
+    await prisma.artifact.upsert({
+      where: { id: artifact.id },
+      update: {
+        status: ArtifactStatus.PUBLISHED,
+        galleryId: gallery.id,
+      },
+      create: {
+        ...artifact,
+        museumId: museum.id,
+        galleryId: gallery.id,
+        status: ArtifactStatus.PUBLISHED,
+      },
+    });
+
+    await prisma.qrCode.upsert({
+      where: { artifactId: artifact.id },
+      update: {},
+      create: {
+        id: `seed-qr-${artifact.id}`,
+        code: `QR-${artifact.id.toUpperCase()}`,
+        artifactId: artifact.id,
+        url: `https://adwa.nexus/artifacts/${artifact.id}`,
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
       },
     });
   }
 
+<<<<<<< HEAD
   const allArtifacts = [...EXHIBITS, ...OBJECTS];
   for (const artifact of allArtifacts) {
     await upsertArtifact(museum.id, artifact);
@@ -440,12 +580,19 @@ async function main() {
 
   for (const route of ROUTES) {
     const stopSlugs = route.stopSlugs ?? [];
+=======
+  for (const route of ROUTES) {
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
     await prisma.tourRoute.upsert({
       where: { slug: route.slug },
       update: {
         title: route.title,
         duration: route.duration,
+<<<<<<< HEAD
         stops: stopSlugs.length,
+=======
+        stops: route.stops,
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
         profile: route.profile,
         description: route.description ?? null,
         museumId: museum.id,
@@ -455,12 +602,17 @@ async function main() {
         slug: route.slug,
         title: route.title,
         duration: route.duration,
+<<<<<<< HEAD
         stops: stopSlugs.length,
+=======
+        stops: route.stops,
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
         profile: route.profile,
         description: route.description ?? null,
         museumId: museum.id,
       },
     });
+<<<<<<< HEAD
 
     const saved = await prisma.tourRoute.findUnique({ where: { slug: route.slug } });
     await prisma.tourRouteStop.deleteMany({ where: { routeId: saved.id } });
@@ -477,16 +629,24 @@ async function main() {
         },
       });
     }
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   }
 
   console.log('Seed complete:', {
     museumId: museum.id,
+<<<<<<< HEAD
     galleries: GALLERIES.length,
     exhibits: EXHIBITS.length,
     objects: OBJECTS.length,
     routes: ROUTES.length,
     admin: 'admin@adwa.nexus / Admin123!',
     qrCodes: allArtifacts.map((a) => a.slug),
+=======
+    artifacts: artifacts.length,
+    routes: ROUTES.length,
+    admin: 'admin@adwa.nexus / Admin123!',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   });
 }
 

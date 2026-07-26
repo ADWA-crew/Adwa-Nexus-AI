@@ -70,7 +70,10 @@ model Museum {
   galleries       Gallery[]
   artifacts       Artifact[]
   visitorSessions VisitorSession[]
+<<<<<<< HEAD
   tourRoutes      TourRoute[]
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 
   @@map("museums")
 }
@@ -89,11 +92,15 @@ model Gallery {
   artifacts     Artifact[]
   visitorEvents VisitorEvent[]
 
+<<<<<<< HEAD
   @@index([museumId])
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   @@map("galleries")
 }
 
 model Artifact {
+<<<<<<< HEAD
   id           String         @id @default(cuid())
   museumId     String
   galleryId    String?
@@ -123,14 +130,36 @@ model Artifact {
   museum        Museum          @relation(fields: [museumId], references: [id], onDelete: Cascade)
   gallery       Gallery?        @relation(fields: [galleryId], references: [id], onDelete: SetNull)
   createdBy     User?           @relation("ArtifactCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+=======
+  id          String         @id @default(cuid())
+  museumId    String
+  galleryId   String?
+  title       String
+  description String?
+  era         String?
+  category    String?
+  status      ArtifactStatus @default(DRAFT)
+  location    String?
+  createdById String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  museum        Museum         @relation(fields: [museumId], references: [id], onDelete: Cascade)
+  gallery       Gallery?       @relation(fields: [galleryId], references: [id], onDelete: SetNull)
+  createdBy     User?          @relation("ArtifactCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   media         Media[]
   qrCode        QrCode?
   qrScans       QrScan[]
   visitorEvents VisitorEvent[]
+<<<<<<< HEAD
   routeStops    TourRouteStop[]
 
   @@index([museumId, status])
   @@index([galleryId])
+=======
+
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   @@map("artifacts")
 }
 
@@ -148,13 +177,19 @@ model Media {
   artifact   Artifact? @relation(fields: [artifactId], references: [id], onDelete: Cascade)
   uploadedBy User?     @relation("MediaUploadedBy", fields: [uploadedById], references: [id], onDelete: SetNull)
 
+<<<<<<< HEAD
   @@index([artifactId])
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   @@map("media")
 }
 
 model QrCode {
   id         String   @id @default(cuid())
+<<<<<<< HEAD
   /// Scannable payload — usually the artifact slug
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   code       String   @unique
   artifactId String   @unique
   url        String
@@ -175,12 +210,19 @@ model QrScan {
   userAgent  String?
   scannedAt  DateTime @default(now())
 
+<<<<<<< HEAD
   qrCode   QrCode          @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
   artifact Artifact        @relation(fields: [artifactId], references: [id], onDelete: Cascade)
   session  VisitorSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
 
   @@index([artifactId])
   @@index([sessionId])
+=======
+  qrCode  QrCode          @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+  artifact Artifact       @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+  session VisitorSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   @@map("qr_scans")
 }
 
@@ -199,12 +241,19 @@ model VisitorSession {
   endedAt      DateTime?
   lastActiveAt DateTime  @default(now())
 
+<<<<<<< HEAD
   museum  Museum?        @relation(fields: [museumId], references: [id], onDelete: SetNull)
   events  VisitorEvent[]
   qrScans QrScan[]
 
   @@index([museumId])
   @@index([visitorType])
+=======
+  museum   Museum?        @relation(fields: [museumId], references: [id], onDelete: SetNull)
+  events   VisitorEvent[]
+  qrScans  QrScan[]
+
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   @@map("visitor_sessions")
 }
 
@@ -214,13 +263,17 @@ model TourRoute {
   title       String
   description String?
   duration    String?
+<<<<<<< HEAD
   /// Convenience count; prefer routeStops for ordered content
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   stops       Int      @default(0)
   profile     String
   museumId    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+<<<<<<< HEAD
   museum     Museum?         @relation(fields: [museumId], references: [id], onDelete: SetNull)
   routeStops TourRouteStop[]
 
@@ -245,6 +298,12 @@ model TourRouteStop {
   @@map("tour_route_stops")
 }
 
+=======
+  @@index([profile])
+  @@map("tour_routes")
+}
+
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 model VisitorEvent {
   id         Int              @id @default(autoincrement())
   sessionId  Int

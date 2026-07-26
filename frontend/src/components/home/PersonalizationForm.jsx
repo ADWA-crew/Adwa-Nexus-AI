@@ -1,6 +1,9 @@
 ﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import { useTranslation } from 'react-i18next';
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 import GlassSelect from '../common/GlassSelect';
 import { useVisitor } from '../../hooks/useVisitor';
 import { visitorService } from '../../services/visitor.service';
@@ -8,7 +11,10 @@ import {
   VISITOR_TYPES,
   AGE_GROUPS,
   getEducationOptions,
+<<<<<<< HEAD
   getVisitorRoute,
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 } from '../../utils/constants';
 import './PersonalizationForm.css';
 
@@ -24,6 +30,17 @@ const Spinner = () => (
   <span className="pf-spinner" aria-hidden="true" />
 );
 
+<<<<<<< HEAD
+=======
+const CheckCircle = () => (
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="none"
+    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="9.5" />
+    <polyline points="7.5,12.5 10.5,15.5 16.5,8.5" />
+  </svg>
+);
+
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 const AlertIcon = () => (
   <svg viewBox="0 0 16 16" width="14" height="14" fill="none"
     stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
@@ -41,11 +58,18 @@ const INITIAL = {
 };
 
 export default function PersonalizationForm() {
+<<<<<<< HEAD
   const { t } = useTranslation();
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   const [form, setForm] = useState(INITIAL);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+<<<<<<< HEAD
+=======
+  const [result, setResult] = useState(null);
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 
   const { startSession } = useVisitor();
   const navigate = useNavigate();
@@ -54,6 +78,7 @@ export default function PersonalizationForm() {
   /* Tourists must pick an age before the education options can be resolved */
   const showEducation =
     form.visitorType !== '' && (!needsAge || form.ageGroup !== '');
+<<<<<<< HEAD
   const rawEducationOptions = getEducationOptions(form.visitorType, form.ageGroup);
 
   const localizedVisitorTypes = VISITOR_TYPES.map((opt) => ({
@@ -71,6 +96,9 @@ export default function PersonalizationForm() {
     ...opt,
     label: t(`personalization.education.${opt.value}`, opt.label),
   }));
+=======
+  const educationOptions = getEducationOptions(form.visitorType, form.ageGroup);
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 
   const clearError = (field) =>
     setErrors((prev) => {
@@ -107,6 +135,7 @@ export default function PersonalizationForm() {
     const next = {};
     const name = form.fullName.trim();
 
+<<<<<<< HEAD
     if (!name) next.fullName = t('personalization.errorNameReq');
     else if (name.length < 2) next.fullName = t('personalization.errorNameMin');
 
@@ -114,6 +143,15 @@ export default function PersonalizationForm() {
     if (needsAge && !form.ageGroup) next.ageGroup = t('personalization.errorAgeReq');
     if (showEducation && !form.education) {
       next.education = t('personalization.errorEduReq');
+=======
+    if (!name) next.fullName = 'Please enter your full name.';
+    else if (name.length < 2) next.fullName = 'Name must be at least 2 characters.';
+
+    if (!form.visitorType) next.visitorType = 'Please choose a visitor type.';
+    if (needsAge && !form.ageGroup) next.ageGroup = 'Please select your age group.';
+    if (showEducation && !form.education) {
+      next.education = 'Please select your education background.';
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
     }
 
     setErrors(next);
@@ -134,24 +172,87 @@ export default function PersonalizationForm() {
         education: form.education,
       });
       startSession(session);
+<<<<<<< HEAD
       /* Each profile continues on the experience built for it */
       navigate(getVisitorRoute(form.visitorType, form.ageGroup));
     } catch (err) {
       console.error('Start journey failed:', err?.response?.data || err);
       setSubmitError(t('personalization.submitError'));
+=======
+      setResult(session);
+      // Demo: under18 → /routes (child), above18 → /artifacts (researcher)
+      navigate(session.redirectTo || '/profile', { replace: false });
+    } catch (err) {
+      console.error('Start journey failed:', err?.response?.data || err);
+      setSubmitError('We could not start your journey. Please try again.');
+    } finally {
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
       setSubmitting(false);
     }
   };
 
+<<<<<<< HEAD
+=======
+  const reset = () => {
+    setResult(null);
+    setForm(INITIAL);
+    setErrors({});
+  };
+
+  /* Confirmation replaces the fields in place — no navigation */
+  if (result) {
+    return (
+      <div className="pf-panel pf-panel--done">
+        <div className="pf-done">
+          <span className="pf-done__icon" aria-hidden="true">
+            <CheckCircle />
+          </span>
+
+          <h2 className="pf-done__title">
+            Your journey is ready, {result.visitor.fullName.split(' ')[0]}
+          </h2>
+          <p className="pf-done__text">{result.experience.summary}</p>
+
+          <dl className="pf-done__meta">
+            <div>
+              <dt>Tone</dt>
+              <dd>{result.experience.tone}</dd>
+            </div>
+            <div>
+              <dt>Reading level</dt>
+              <dd>{result.experience.readingLevel}</dd>
+            </div>
+            <div>
+              <dt>Depth</dt>
+              <dd>{result.experience.contentDepth}</dd>
+            </div>
+          </dl>
+
+          <button type="button" className="pf-btn pf-btn--ghost" onClick={reset}>
+            Adjust preferences
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   return (
     <form className="pf-panel" onSubmit={handleSubmit} noValidate>
 
       {/* Header */}
       <header className="pf-header">
+<<<<<<< HEAD
         <span className="pf-eyebrow">{t('personalization.step')}</span>
         <h1 className="pf-title">{t('personalization.title')}</h1>
         <p className="pf-subtitle">
           {t('personalization.subtitle')}
+=======
+        <span className="pf-eyebrow">Step 1 of 1</span>
+        <h1 className="pf-title">Personalize Your Journey</h1>
+        <p className="pf-subtitle">
+          Tell us who you are and we will shape the museum experience around you.
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
         </p>
       </header>
 
@@ -160,13 +261,21 @@ export default function PersonalizationForm() {
         {/* Full name */}
         <div className="pf-field">
           <label className="pf-label" htmlFor="pf-fullname">
+<<<<<<< HEAD
             {t('personalization.fullName')} <span className="pf-required" aria-hidden="true">*</span>
+=======
+            Full Name <span className="pf-required" aria-hidden="true">*</span>
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
           </label>
           <input
             id="pf-fullname"
             type="text"
             className={`pf-input${errors.fullName ? ' pf-input--invalid' : ''}`}
+<<<<<<< HEAD
             placeholder={t('personalization.fullNamePlaceholder')}
+=======
+            placeholder="e.g. Selam Tesfaye"
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
             value={form.fullName}
             onChange={handleName}
             autoComplete="name"
@@ -183,15 +292,26 @@ export default function PersonalizationForm() {
         {/* Visitor type */}
         <div className="pf-field">
           <span className="pf-label" id="pf-type-label">
+<<<<<<< HEAD
             {t('personalization.visitingAs')} <span className="pf-required" aria-hidden="true">*</span>
+=======
+            I am visiting as <span className="pf-required" aria-hidden="true">*</span>
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
           </span>
           <GlassSelect
             id="pf-type"
             labelledBy="pf-type-label"
+<<<<<<< HEAD
             options={localizedVisitorTypes}
             value={form.visitorType}
             onChange={handleVisitorType}
             placeholder={t('personalization.selectVisitorType')}
+=======
+            options={VISITOR_TYPES}
+            value={form.visitorType}
+            onChange={handleVisitorType}
+            placeholder="Select visitor type"
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
             invalid={!!errors.visitorType}
           />
           {errors.visitorType && (
@@ -205,14 +325,22 @@ export default function PersonalizationForm() {
         {needsAge && (
           <div className="pf-field pf-field--reveal">
             <span className="pf-label" id="pf-age-label">
+<<<<<<< HEAD
               {t('personalization.ageGroup')} <span className="pf-required" aria-hidden="true">*</span>
+=======
+              Age Group <span className="pf-required" aria-hidden="true">*</span>
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
             </span>
             <div
               className="pf-segment"
               role="radiogroup"
               aria-labelledby="pf-age-label"
             >
+<<<<<<< HEAD
               {localizedAgeGroups.map((opt) => (
+=======
+              {AGE_GROUPS.map((opt) => (
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
                 <button
                   key={opt.value}
                   type="button"
@@ -237,15 +365,26 @@ export default function PersonalizationForm() {
         {showEducation && (
           <div className="pf-field pf-field--reveal">
             <span className="pf-label" id="pf-edu-label">
+<<<<<<< HEAD
               {t('personalization.educationBackground')} <span className="pf-required" aria-hidden="true">*</span>
+=======
+              Education Background <span className="pf-required" aria-hidden="true">*</span>
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
             </span>
             <GlassSelect
               id="pf-edu"
               labelledBy="pf-edu-label"
+<<<<<<< HEAD
               options={localizedEducationOptions}
               value={form.education}
               onChange={handleEducation}
               placeholder={t('personalization.selectEducation')}
+=======
+              options={educationOptions}
+              value={form.education}
+              onChange={handleEducation}
+              placeholder="Select your education level"
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
               invalid={!!errors.education}
             />
             {errors.education && (
@@ -270,7 +409,11 @@ export default function PersonalizationForm() {
           disabled={submitting}
         >
           {submitting ? <Spinner /> : <ArrowRight />}
+<<<<<<< HEAD
           {submitting ? t('personalization.preparing') : t('personalization.submit')}
+=======
+          {submitting ? 'Preparing your experience…' : 'Submit'}
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
         </button>
       </div>
     </form>

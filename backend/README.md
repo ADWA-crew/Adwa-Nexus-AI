@@ -1,6 +1,10 @@
 # Adwa Nexus AI — Backend
 
+<<<<<<< HEAD
 Express + Prisma + Neon, aligned with the React frontend visitor journey and exhibit QR flow.
+=======
+Express + Prisma + Neon, aligned with the React frontend visitor journey.
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 
 ## Setup
 
@@ -22,7 +26,10 @@ Landing → Start Journey → Personalization Form
   → POST /api/v1/visitors/sessions
   → { sessionId, token, visitor, experience }
   → Personalized Experience Page
+<<<<<<< HEAD
   → Scan QR → POST /api/qr/resolve → exhibit DTO
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 ```
 
 Store `token` in `localStorage.visitorToken` and send `x-visitor-token` on later calls.
@@ -58,6 +65,7 @@ Store `token` in `localStorage.visitorToken` and send `x-visitor-token` on later
 }
 ```
 
+<<<<<<< HEAD
 ## Exhibit / QR shape
 
 `GET /artifacts/:id` and `POST /qr/resolve` return the frontend exhibit DTO:
@@ -80,6 +88,8 @@ Store `token` in `localStorage.visitorToken` and send `x-visitor-token` on later
 
 Seeded QR codes use the artifact **slug** as the scannable payload (`adwa-victory`, `menelik-ii`, `empress-taytu`, …).
 
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 ## API map (frontend base `/api`)
 
 | Method | Path | Token |
@@ -87,6 +97,7 @@ Seeded QR codes use the artifact **slug** as the scannable payload (`adwa-victor
 | POST | `/v1/visitors/sessions` | — (returns visitor `token`) |
 | GET | `/v1/visitors/sessions/me` | `x-visitor-token` |
 | GET | `/v1/visitors/sessions/me/experience` | `x-visitor-token` |
+<<<<<<< HEAD
 | POST | `/v1/visitors/sessions/me/end` | `x-visitor-token` |
 | PATCH | `/v1/visitors/sessions/me/profile` | `x-visitor-token` |
 | POST | `/v1/visitors/events` | `x-visitor-token` |
@@ -106,12 +117,22 @@ Seeded QR codes use the artifact **slug** as the scannable payload (`adwa-victor
 | GET | `/admin/me` | `Authorization: Bearer <staffToken>` |
 | GET | `/ai/languages` | — |
 | POST | `/ai/chat`, `/ai/voice` | — |
+=======
+| GET/PUT | `/visitors/:id` | — |
+| GET | `/museums`, `/museums/:id` | — |
+| GET | `/artifacts`, `/artifacts/:id` | — |
+| GET | `/routes`, `/routes/:id` | — |
+| GET | `/analytics/stats`, `/analytics/visitors` | — |
+| POST | `/admin/auth/login` | returns staff JWT |
+| GET | `/admin/me` | `Authorization: Bearer <staffToken>` |
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 
 ### Staff login (seed)
 
 - Email: `admin@adwa.nexus`
 - Password: `Admin123!`
 
+<<<<<<< HEAD
 ## Data model (Prisma)
 
 | Table | Role |
@@ -124,6 +145,8 @@ Seeded QR codes use the artifact **slug** as the scannable payload (`adwa-victor
 | `visitor_sessions` / `visitor_events` | Journey + analytics |
 | `users` | Staff accounts |
 
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 ## AI Guide (home page)
 
 | Method | Path | Purpose |

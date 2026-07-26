@@ -1,5 +1,8 @@
 ﻿import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import { useTranslation } from 'react-i18next';
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 import adwaHero from '../../assets/images/heroes/adwa_hero.png';
 import './HeroSection.css';
 
@@ -27,7 +30,10 @@ const StarIcon = () => (
 
 export default function HeroSection() {
   const navigate = useNavigate();
+<<<<<<< HEAD
   const { t } = useTranslation();
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 
   return (
     <section className="hero" id="home" aria-label="Hero section">

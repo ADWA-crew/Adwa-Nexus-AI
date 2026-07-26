@@ -8,15 +8,19 @@ import RoutesList from '../pages/Routes';
 import RouteDetails from '../pages/RouteDetails';
 import VisitorProfile from '../pages/VisitorProfile';
 import StartJourney from '../pages/StartJourney';
+<<<<<<< HEAD
 import ResearcherPage from '../pages/ResearcherPage';
 import TouristPage from '../pages/TouristPage';
 import ChildPage from '../pages/ChildPage';
 import ExhibitPage from '../pages/ExhibitPage';
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 import NotFound from '../pages/NotFound';
 
 const AppRoutes = () => (
   <Routes>
     <Route path='/' element={<Home />} />
+    <Route path='/start-journey' element={<StartJourney />} />
     <Route path='/museums' element={<Museums />} />
     <Route path='/museums/:id' element={<MuseumDetails />} />
     <Route path='/artifacts' element={<Artifacts />} />

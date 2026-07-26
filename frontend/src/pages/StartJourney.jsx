@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom';
+<<<<<<< HEAD
 import { useTranslation } from 'react-i18next';
 import CinematicBackdrop from '../components/common/CinematicBackdrop';
 import GashaEmblem from '../components/common/GashaEmblem';
 import LanguageSelector from '../components/common/LanguageSelector';
+=======
+import CinematicBackdrop from '../components/common/CinematicBackdrop';
+import GashaEmblem from '../components/common/GashaEmblem';
+import LanguageSelect from '../components/common/LanguageSelect';
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 import PersonalizationForm from '../components/home/PersonalizationForm';
 import './StartJourney.css';
 
@@ -15,8 +21,11 @@ const BackArrow = () => (
 );
 
 export default function StartJourney() {
+<<<<<<< HEAD
   const { t } = useTranslation();
 
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   return (
     <main className="sj">
       <CinematicBackdrop />
@@ -25,9 +34,15 @@ export default function StartJourney() {
       <div className="sj__topbar">
         <Link to="/" className="sj__back">
           <BackArrow />
+<<<<<<< HEAD
           {t('startJourney.backToHome')}
         </Link>
         <LanguageSelector />
+=======
+          Back to home
+        </Link>
+        <LanguageSelect />
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
       </div>
 
       {/* Split: form left, emblem right */}

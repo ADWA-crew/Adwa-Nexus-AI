@@ -9,6 +9,11 @@ export const LANGUAGES = {
 export const LANGUAGE_OPTIONS = [
   { code: 'EN', value: 'en', label: 'English' },
   { code: 'አማ', value: 'am', label: 'አማርኛ' },
+<<<<<<< HEAD
+=======
+  { code: 'FR', value: 'fr', label: 'Français' },
+  { code: 'DE', value: 'de', label: 'Deutsch' },
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 ];
 
 export const THEMES = {
@@ -52,6 +57,7 @@ export const isMinorVisitor = (visitorType, ageGroup) => {
 
 export const getEducationOptions = (visitorType, ageGroup) =>
   isMinorVisitor(visitorType, ageGroup) ? MINOR_EDUCATION : ADULT_EDUCATION;
+<<<<<<< HEAD
 
 /* ── Feature switches ────────────────────────────────────
    QR is the only way into an exhibit for this milestone. The
@@ -79,3 +85,5 @@ export const getVisitorRoute = (visitorType, ageGroup) => {
   if (visitorType === 'research') return VISITOR_ROUTES.research;
   return VISITOR_ROUTES.tourist;
 };
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534

@@ -1,9 +1,23 @@
 ﻿import { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../common/LanguageSelector';
 import { useLanguage } from '../../hooks/useLanguage';
 import './Navbar.css';
 
+=======
+import LanguageSelect from '../common/LanguageSelect';
+import { useLanguage } from '../../hooks/useLanguage';
+import './Navbar.css';
+
+const NAV_LINKS = [
+  { label: 'Home',      href: '#home' },
+  { label: 'Museums',   href: '#museums' },
+  { label: 'Artifacts', href: '#artifacts' },
+  { label: 'Routes',    href: '#routes' },
+];
+
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 const MountainLogo = () => (
   <svg className="nav-logo__icon" viewBox="0 0 40 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
@@ -41,6 +55,7 @@ const MenuIcon = ({ open }) => (
 );
 
 export default function Navbar() {
+<<<<<<< HEAD
   const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -54,6 +69,13 @@ export default function Navbar() {
     { key: 'artifacts', href: '#artifacts', label: t('nav.artifacts') },
     { key: 'routes', href: '#routes', label: t('nav.routes') },
   ];
+=======
+  const [scrolled, setScrolled]     = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState('Home');
+
+  const { setLanguage, activeLanguage, languages } = useLanguage();
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -61,6 +83,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+<<<<<<< HEAD
+=======
+  /* Lock body scroll when mobile menu is open */
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -96,8 +122,14 @@ export default function Navbar() {
         </nav>
 
         <div className="nav-actions">
+<<<<<<< HEAD
           <LanguageSelector />
 
+=======
+          <LanguageSelect />
+
+          {/* Mobile hamburger */}
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
           <button
             className="nav-hamburger"
             onClick={() => setMobileOpen(!mobileOpen)}

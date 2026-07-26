@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+<<<<<<< HEAD
 import { useTranslation } from 'react-i18next';
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
 import { aiService, AI_LANGUAGE_OPTIONS } from '../../services/ai.service';
 import './AiGuideCard.css';
 
@@ -22,7 +25,10 @@ function speak(text, language) {
 }
 
 export default function AiGuideCard() {
+<<<<<<< HEAD
   const { t } = useTranslation();
+=======
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
   const [open, setOpen] = useState(false);
   const [language, setLanguage] = useState('en');
   const [input, setInput] = useState('');
@@ -32,7 +38,12 @@ export default function AiGuideCard() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
+<<<<<<< HEAD
       content: t('aiGuide.welcomeMsg'),
+=======
+      content:
+        'Welcome. I am Adwa Guide — ask me about the museum, the Battle of Adwa, artifacts, or planning your visit.',
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
     },
   ]);
 
@@ -144,13 +155,22 @@ export default function AiGuideCard() {
                 AG
               </span>
               <div>
+<<<<<<< HEAD
                 <p className="ai-guide__eyebrow">{t('aiGuide.concierge')}</p>
                 <h2 className="ai-guide__title">{t('aiGuide.title')}</h2>
+=======
+                <p className="ai-guide__eyebrow">Museum Concierge</p>
+                <h2 className="ai-guide__title">Adwa Guide</h2>
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
               </div>
             </div>
 
             <label className="ai-guide__lang">
+<<<<<<< HEAD
               <span className="ai-guide__lang-label">{t('aiGuide.language')}</span>
+=======
+              <span className="ai-guide__lang-label">Language</span>
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
@@ -176,7 +196,11 @@ export default function AiGuideCard() {
             ))}
             {busy && (
               <p className="ai-guide__thinking" aria-live="polite">
+<<<<<<< HEAD
                 {t('aiGuide.thinking')}
+=======
+                Composing a reply…
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
               </p>
             )}
           </div>
@@ -198,7 +222,11 @@ export default function AiGuideCard() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
+<<<<<<< HEAD
               placeholder={t('aiGuide.placeholder')}
+=======
+              placeholder="Ask about Adwa, artifacts, or your visit…"
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
               disabled={busy || listening}
               aria-label="Message Adwa Guide"
             />
@@ -239,8 +267,13 @@ export default function AiGuideCard() {
           {open ? <CloseIcon /> : <GuideIcon />}
         </span>
         <span className="ai-guide__launcher-copy">
+<<<<<<< HEAD
           <strong>{open ? t('aiGuide.closeGuide') : t('aiGuide.title')}</strong>
           <small>{open ? t('aiGuide.hideConv') : t('aiGuide.textAndVoice')}</small>
+=======
+          <strong>{open ? 'Close guide' : 'Adwa Guide'}</strong>
+          <small>{open ? 'Hide conversation' : 'Text & voice · Multilingual'}</small>
+>>>>>>> daa6d8eefeba41a1fd120ecc8e42490f7f2aa534
         </span>
       </button>
     </div>
