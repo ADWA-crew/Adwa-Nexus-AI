@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { exhibitParagraphs, readingMinutes } from '../../data/exhibits';
 import { SpeakerIcon } from './icons';
 import './TextView.css';
@@ -10,6 +11,7 @@ const SIZES = [
 ];
 
 export default function TextView({ exhibit, simple = false, onListen }) {
+  const { t } = useTranslation();
   const [size, setSize] = useState(simple ? 'lg' : 'md');
   const paragraphs = exhibitParagraphs(exhibit, simple);
 
@@ -18,10 +20,10 @@ export default function TextView({ exhibit, simple = false, onListen }) {
 
       <div className="tv__bar">
         <span className="tv__meta">
-          {readingMinutes(exhibit, simple)} min read
+          {t('exhibit.minRead', { minutes: readingMinutes(exhibit, simple) })}
         </span>
 
-        <div className="tv__sizes" role="group" aria-label="Text size">
+        <div className="tv__sizes" role="group" aria-label={t('exhibit.textSize')}>
           {SIZES.map(({ id, label, title }) => (
             <button
               key={id}
@@ -46,7 +48,7 @@ export default function TextView({ exhibit, simple = false, onListen }) {
       </article>
 
       <ul className="tv__facts">
-        {exhibit.facts.map(({ label, value }) => (
+        {(exhibit.facts || []).map(({ label, value }) => (
           <li key={label} className="tv__fact">
             <span className="tv__fact-label">{label}</span>
             <span className="tv__fact-value">{value}</span>
@@ -56,7 +58,7 @@ export default function TextView({ exhibit, simple = false, onListen }) {
 
       <button type="button" className="tv__listen" onClick={onListen}>
         <SpeakerIcon />
-        Prefer to listen? Play the narration
+        {t('exhibit.preferToListen')}
       </button>
     </div>
   );

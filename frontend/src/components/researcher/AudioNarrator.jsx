@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSpeech } from '../../hooks/useSpeech';
 import { exhibitScript } from '../../data/exhibits';
 import { PauseIcon, PlayIcon, RestartIcon, SpeakerIcon } from './icons';
@@ -25,6 +26,7 @@ const tokenize = (script) => {
 };
 
 export default function AudioNarrator({ exhibit, simple = false, onRead }) {
+  const { t } = useTranslation();
   const script = useMemo(() => exhibitScript(exhibit, simple), [exhibit, simple]);
   const tokens = useMemo(() => tokenize(script), [script]);
 
@@ -58,11 +60,10 @@ export default function AudioNarrator({ exhibit, simple = false, onRead }) {
       <div className="an an--fallback">
         <SpeakerIcon size={22} />
         <p>
-          This browser cannot read text aloud. Chrome, Edge and Safari support
-          narration — meanwhile the full story is on the Read tab.
+          {t('exhibit.cannotReadAloud')}
         </p>
         <button type="button" className="an__link" onClick={onRead}>
-          Open the written story
+          {t('exhibit.openWrittenStory')}
         </button>
       </div>
     );
@@ -79,7 +80,7 @@ export default function AudioNarrator({ exhibit, simple = false, onRead }) {
           type="button"
           className={`an__play${playing ? ' an__play--on' : ''}`}
           onClick={toggle}
-          aria-label={playing ? 'Pause narration' : 'Play narration'}
+          aria-label={playing ? t('exhibit.paused') : t('exhibit.narrating')}
         >
           <span className="an__play-ring" aria-hidden="true" />
           {playing ? <PauseIcon size={22} /> : <PlayIcon size={22} />}
@@ -87,20 +88,20 @@ export default function AudioNarrator({ exhibit, simple = false, onRead }) {
 
         <div className="an__info">
           <p className="an__title">
-            {status === 'idle'    && 'Listen to this exhibit'}
-            {status === 'speaking' && 'Narrating…'}
-            {status === 'paused'  && 'Paused'}
+            {status === 'idle'    && t('exhibit.listenToExhibit')}
+            {status === 'speaking' && t('exhibit.narrating')}
+            {status === 'paused'  && t('exhibit.paused')}
           </p>
           <p className="an__sub">
             {status === 'idle'
-              ? 'The guide reads the full story aloud and follows along with the text.'
-              : 'Words highlight as they are spoken.'}
+              ? t('exhibit.guideReadsAloud')
+              : t('exhibit.wordsHighlight')}
           </p>
 
           <div
             className="an__track"
             role="progressbar"
-            aria-label="Narration progress"
+            aria-label={t('exhibit.listenTab')}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Math.round(progress)}
@@ -134,7 +135,7 @@ export default function AudioNarrator({ exhibit, simple = false, onRead }) {
             disabled={status === 'idle'}
           >
             <RestartIcon />
-            Restart
+            {t('exhibit.restart')}
           </button>
           <button
             type="button"
@@ -142,7 +143,7 @@ export default function AudioNarrator({ exhibit, simple = false, onRead }) {
             onClick={stop}
             disabled={status === 'idle'}
           >
-            Stop
+            {t('exhibit.stop')}
           </button>
         </div>
       </div>

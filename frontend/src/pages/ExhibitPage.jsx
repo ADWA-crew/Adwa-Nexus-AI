@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Navbar from '../components/layout/Navbar';
 import FormatTabs from '../components/researcher/FormatTabs';
 import TextView from '../components/researcher/TextView';
@@ -10,21 +11,22 @@ import { getExhibit } from '../data/exhibits';
 import { artifactService } from '../services/artifact.service';
 import './ExhibitPage.css';
 
-const FORMATS = [
-  { id: 'text',  label: 'Read',   hint: 'Full story', Icon: TextIcon },
-  { id: 'audio', label: 'Listen', hint: 'Read aloud', Icon: SpeakerIcon },
-  { id: 'video', label: 'Watch',  hint: 'Short film', Icon: VideoIcon },
-];
-
-const VALID_FORMATS = FORMATS.map((f) => f.id);
-
 /* Falls back to the exhibit image, then YouTube's own still */
 const backdropFor = (exhibit) =>
   exhibit.image || `https://img.youtube.com/vi/${exhibit.youtubeId}/maxresdefault.jpg`;
 
 export default function ExhibitPage() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [params] = useSearchParams();
+
+  const formats = [
+    { id: 'text',  label: t('exhibit.readTab'),   hint: t('exhibit.fullStory'), Icon: TextIcon },
+    { id: 'audio', label: t('exhibit.listenTab'), hint: t('exhibit.readAloud'), Icon: SpeakerIcon },
+    { id: 'video', label: t('exhibit.watchTab'),  hint: t('exhibit.shortFilm'), Icon: VideoIcon },
+  ];
+
+  const validFormats = formats.map((f) => f.id);
 
   const [exhibit, setExhibit] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -34,7 +36,7 @@ export default function ExhibitPage() {
   const simple = params.get('simple') === '1';
 
   const [format, setFormat] = useState(
-    VALID_FORMATS.includes(requested) ? requested : 'text'
+    validFormats.includes(requested) ? requested : 'text'
   );
 
   useEffect(() => () => window.speechSynthesis?.cancel(), []);
@@ -70,7 +72,7 @@ export default function ExhibitPage() {
       <div className="xh">
         <Navbar />
         <main className="xh__missing">
-          <h1>Opening exhibit…</h1>
+          <h1>{t('scan.openingExhibit')}</h1>
         </main>
       </div>
     );
@@ -81,13 +83,12 @@ export default function ExhibitPage() {
       <div className="xh">
         <Navbar />
         <main className="xh__missing">
-          <h1>This code has no exhibit yet</h1>
+          <h1>{t('exhibit.missingTitle')}</h1>
           <p>
-            The label may be from another gallery. Please try the code on the
-            display again.
+            {t('exhibit.missingText')}
           </p>
           <Link className="xh__home" to="/">
-            Back to the museum
+            {t('exhibit.backToMuseum')}
           </Link>
         </main>
       </div>
@@ -122,7 +123,7 @@ export default function ExhibitPage() {
       {/* ── Format switch ───────────────────────────────── */}
       <div className="xh__switch">
         <div className="xh__switch-inner">
-          <FormatTabs formats={FORMATS} active={format} onChange={changeFormat} />
+          <FormatTabs formats={formats} active={format} onChange={changeFormat} />
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PlayIcon, TextIcon } from './icons';
 import './VideoView.css';
 
@@ -13,6 +14,7 @@ const thumbUrl = (youtubeId) =>
 const watchUrl = (youtubeId) => `https://www.youtube.com/watch?v=${youtubeId}`;
 
 export default function VideoView({ exhibit, onRead }) {
+  const { t } = useTranslation();
   const [started, setStarted] = useState(false);
 
   /* A new exhibit returns to the cover */
@@ -45,7 +47,7 @@ export default function VideoView({ exhibit, onRead }) {
               <PlayIcon size={26} />
             </span>
             <span className="vv__cover-text">
-              <strong>Watch the short film</strong>
+              <strong>{t('exhibit.watchShortFilm')}</strong>
               {exhibit.videoCaption}
             </span>
           </button>
@@ -62,11 +64,11 @@ export default function VideoView({ exhibit, onRead }) {
             target="_blank"
             rel="noreferrer"
           >
-            Open on YouTube
+            {t('exhibit.openOnYoutube')}
           </a>
           <button type="button" className="vv__read" onClick={onRead}>
             <TextIcon />
-            Read the transcript
+            {t('exhibit.readTranscript')}
           </button>
         </div>
       </div>

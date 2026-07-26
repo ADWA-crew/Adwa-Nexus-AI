@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import Navbar from '../components/layout/Navbar';
 import ScanStage from '../components/researcher/ScanStage';
 import { useVisitorName } from '../hooks/useVisitorName';
 import './ResearcherPage.css';
 
 export default function ResearcherPage() {
+  const { t } = useTranslation();
   const visitorName = useVisitorName();
 
   return (
@@ -13,19 +15,18 @@ export default function ResearcherPage() {
       <main className="researcher__main">
 
         <section className="rp-welcome" aria-label="Welcome">
-          <span className="rp-welcome__badge">Research access</span>
+          <span className="rp-welcome__badge">{t('researcher.badge')}</span>
           <h1 className="rp-welcome__title">
-            Hello, <span className="rp-welcome__name">{visitorName}</span>
+            {t('researcher.hello', { name: visitorName })}
           </h1>
           <p className="rp-welcome__text">
-            Welcome to our museum. Your reading room is open — scan any display to
-            open its full account, narration, and archive footage.
+            {t('researcher.text')}
           </p>
         </section>
 
         <ScanStage
-          title="Scan the code beside a record"
-          text="Point your camera at the QR code on any display to open the full account, hear it narrated, or watch the film."
+          title={t('researcher.scanTitle')}
+          text={t('researcher.scanText')}
         />
       </main>
     </div>

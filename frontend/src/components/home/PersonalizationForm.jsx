@@ -1,5 +1,6 @@
 ﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import GlassSelect from '../common/GlassSelect';
 import { useVisitor } from '../../hooks/useVisitor';
 import { visitorService } from '../../services/visitor.service';
@@ -40,6 +41,7 @@ const INITIAL = {
 };
 
 export default function PersonalizationForm() {
+  const { t } = useTranslation();
   const [form, setForm] = useState(INITIAL);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -52,7 +54,23 @@ export default function PersonalizationForm() {
   /* Tourists must pick an age before the education options can be resolved */
   const showEducation =
     form.visitorType !== '' && (!needsAge || form.ageGroup !== '');
-  const educationOptions = getEducationOptions(form.visitorType, form.ageGroup);
+  const rawEducationOptions = getEducationOptions(form.visitorType, form.ageGroup);
+
+  const localizedVisitorTypes = VISITOR_TYPES.map((opt) => ({
+    ...opt,
+    label: t(`personalization.types.${opt.value}`, opt.label),
+    hint: t(`personalization.types.${opt.value}Hint`, opt.hint),
+  }));
+
+  const localizedAgeGroups = AGE_GROUPS.map((opt) => ({
+    ...opt,
+    label: t(`personalization.ages.${opt.value === 'under-18' ? 'under18' : 'above18'}`, opt.label),
+  }));
+
+  const localizedEducationOptions = rawEducationOptions.map((opt) => ({
+    ...opt,
+    label: t(`personalization.education.${opt.value}`, opt.label),
+  }));
 
   const clearError = (field) =>
     setErrors((prev) => {
@@ -89,13 +107,13 @@ export default function PersonalizationForm() {
     const next = {};
     const name = form.fullName.trim();
 
-    if (!name) next.fullName = 'Please enter your full name.';
-    else if (name.length < 2) next.fullName = 'Name must be at least 2 characters.';
+    if (!name) next.fullName = t('personalization.errorNameReq');
+    else if (name.length < 2) next.fullName = t('personalization.errorNameMin');
 
-    if (!form.visitorType) next.visitorType = 'Please choose a visitor type.';
-    if (needsAge && !form.ageGroup) next.ageGroup = 'Please select your age group.';
+    if (!form.visitorType) next.visitorType = t('personalization.errorTypeReq');
+    if (needsAge && !form.ageGroup) next.ageGroup = t('personalization.errorAgeReq');
     if (showEducation && !form.education) {
-      next.education = 'Please select your education background.';
+      next.education = t('personalization.errorEduReq');
     }
 
     setErrors(next);
@@ -120,7 +138,7 @@ export default function PersonalizationForm() {
       navigate(getVisitorRoute(form.visitorType, form.ageGroup));
     } catch (err) {
       console.error('Start journey failed:', err?.response?.data || err);
-      setSubmitError('We could not start your journey. Please try again.');
+      setSubmitError(t('personalization.submitError'));
       setSubmitting(false);
     }
   };
@@ -130,10 +148,10 @@ export default function PersonalizationForm() {
 
       {/* Header */}
       <header className="pf-header">
-        <span className="pf-eyebrow">Step 1 of 1</span>
-        <h1 className="pf-title">Personalize Your Journey</h1>
+        <span className="pf-eyebrow">{t('personalization.step')}</span>
+        <h1 className="pf-title">{t('personalization.title')}</h1>
         <p className="pf-subtitle">
-          Tell us who you are and we will shape the museum experience around you.
+          {t('personalization.subtitle')}
         </p>
       </header>
 
@@ -142,13 +160,13 @@ export default function PersonalizationForm() {
         {/* Full name */}
         <div className="pf-field">
           <label className="pf-label" htmlFor="pf-fullname">
-            Full Name <span className="pf-required" aria-hidden="true">*</span>
+            {t('personalization.fullName')} <span className="pf-required" aria-hidden="true">*</span>
           </label>
           <input
             id="pf-fullname"
             type="text"
             className={`pf-input${errors.fullName ? ' pf-input--invalid' : ''}`}
-            placeholder="e.g. Selam Tesfaye"
+            placeholder={t('personalization.fullNamePlaceholder')}
             value={form.fullName}
             onChange={handleName}
             autoComplete="name"
@@ -165,15 +183,15 @@ export default function PersonalizationForm() {
         {/* Visitor type */}
         <div className="pf-field">
           <span className="pf-label" id="pf-type-label">
-            I am visiting as <span className="pf-required" aria-hidden="true">*</span>
+            {t('personalization.visitingAs')} <span className="pf-required" aria-hidden="true">*</span>
           </span>
           <GlassSelect
             id="pf-type"
             labelledBy="pf-type-label"
-            options={VISITOR_TYPES}
+            options={localizedVisitorTypes}
             value={form.visitorType}
             onChange={handleVisitorType}
-            placeholder="Select visitor type"
+            placeholder={t('personalization.selectVisitorType')}
             invalid={!!errors.visitorType}
           />
           {errors.visitorType && (
@@ -187,14 +205,14 @@ export default function PersonalizationForm() {
         {needsAge && (
           <div className="pf-field pf-field--reveal">
             <span className="pf-label" id="pf-age-label">
-              Age Group <span className="pf-required" aria-hidden="true">*</span>
+              {t('personalization.ageGroup')} <span className="pf-required" aria-hidden="true">*</span>
             </span>
             <div
               className="pf-segment"
               role="radiogroup"
               aria-labelledby="pf-age-label"
             >
-              {AGE_GROUPS.map((opt) => (
+              {localizedAgeGroups.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
@@ -219,15 +237,15 @@ export default function PersonalizationForm() {
         {showEducation && (
           <div className="pf-field pf-field--reveal">
             <span className="pf-label" id="pf-edu-label">
-              Education Background <span className="pf-required" aria-hidden="true">*</span>
+              {t('personalization.educationBackground')} <span className="pf-required" aria-hidden="true">*</span>
             </span>
             <GlassSelect
               id="pf-edu"
               labelledBy="pf-edu-label"
-              options={educationOptions}
+              options={localizedEducationOptions}
               value={form.education}
               onChange={handleEducation}
-              placeholder="Select your education level"
+              placeholder={t('personalization.selectEducation')}
               invalid={!!errors.education}
             />
             {errors.education && (
@@ -252,7 +270,7 @@ export default function PersonalizationForm() {
           disabled={submitting}
         >
           {submitting ? <Spinner /> : <ArrowRight />}
-          {submitting ? 'Preparing your experience…' : 'Submit'}
+          {submitting ? t('personalization.preparing') : t('personalization.submit')}
         </button>
       </div>
     </form>

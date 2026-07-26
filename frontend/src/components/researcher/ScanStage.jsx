@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import QrScanner from './QrScanner';
 import ExhibitPicker from './ExhibitPicker';
 import ExhibitViewer from './ExhibitViewer';
@@ -16,9 +17,13 @@ export default function ScanStage({
   simple = false,
   startWith = 'text',
   variant = 'default',
-  title = 'Scan the code beside an exhibit',
-  text = 'Point your camera at the QR code on any display to open its story.',
+  title,
+  text,
 }) {
+  const { t } = useTranslation();
+  const displayTitle = title || t('tourist.scanTitle');
+  const displayText = text || t('tourist.scanText');
+
   const [exhibit, setExhibit] = useState(null);
   const [scannerOpen, setScannerOpen] = useState(false);
   const [notice, setNotice] = useState('');
@@ -80,13 +85,13 @@ export default function ScanStage({
       setLoading(false);
 
       if (!match) {
-        setNotice('That code does not belong to an exhibit in this museum.');
+        setNotice(t('scan.invalidCode'));
         return;
       }
 
       showExhibit(match);
     },
-    [resolveExhibit, showExhibit],
+    [resolveExhibit, showExhibit, t],
   );
 
   const startScan = () => {
@@ -100,10 +105,10 @@ export default function ScanStage({
       {exhibit ? (
         <>
           <div className="ss__bar">
-            <p className="ss__bar-text">Scanned exhibit</p>
+            <p className="ss__bar-text">{t('scan.scannedExhibit')}</p>
             <button type="button" className="ss__again" onClick={startScan}>
               <ScanIcon size={15} />
-              Scan another
+              {t('scan.scanAnother')}
             </button>
           </div>
 
@@ -122,12 +127,12 @@ export default function ScanStage({
             <QrGlyph size={62} />
           </div>
 
-          <h2 className="ss__title">{title}</h2>
-          <p className="ss__text">{text}</p>
+          <h2 className="ss__title">{displayTitle}</h2>
+          <p className="ss__text">{displayText}</p>
 
           <button type="button" className="ss__scan" onClick={startScan} disabled={loading}>
             <ScanIcon size={19} />
-            {loading ? 'Opening exhibit…' : 'Scan QR code'}
+            {loading ? t('scan.openingExhibit') : t('scan.scanQrCode')}
           </button>
 
           {notice && <p className="ss__notice" role="status">{notice}</p>}

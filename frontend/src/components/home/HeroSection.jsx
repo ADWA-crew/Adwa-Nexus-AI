@@ -1,4 +1,5 @@
 ﻿import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import adwaHero from '../../assets/images/heroes/adwa_hero.png';
 import './HeroSection.css';
 
@@ -26,6 +27,7 @@ const StarIcon = () => (
 
 export default function HeroSection() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <section className="hero" id="home" aria-label="Hero section">
@@ -61,20 +63,19 @@ export default function HeroSection() {
           <div className="hero__badge">
             <span className="hero__badge-pulse" aria-hidden="true" />
             <StarIcon />
-            <span>Ethiopia's #1 Heritage Platform</span>
+            <span>{t('hero.badge')}</span>
           </div>
 
           {/* Heading */}
           <h1 className="hero__title">
-            Discover Ethiopia's
+            {t('hero.titleLine1')}
             <br />
-            <span className="hero__title-gold">Living History</span>
+            <span className="hero__title-gold">{t('hero.titleLine2')}</span>
           </h1>
 
           {/* Description */}
           <p className="hero__desc">
-            Explore Ethiopia's museums, historical artifacts, and legendary
-            heritage through immersive digital experiences.
+            {t('hero.description')}
           </p>
 
           {/* CTA row */}
@@ -85,11 +86,11 @@ export default function HeroSection() {
               onClick={() => navigate('/start-journey')}
             >
               <ArrowRight />
-              Start Journey
+              {t('hero.startJourney')}
             </button>
             <button className="hero-btn hero-btn--ghost" type="button">
               <PlayIcon />
-              Discover Ethiopia
+              {t('hero.discoverEthiopia')}
             </button>
           </div>
 
@@ -101,7 +102,7 @@ export default function HeroSection() {
         <div className="hero__scroll-mouse">
           <div className="hero__scroll-dot" />
         </div>
-        <span className="hero__scroll-label">Scroll to explore</span>
+        <span className="hero__scroll-label">{t('hero.scroll')}</span>
       </div>
 
     </section>

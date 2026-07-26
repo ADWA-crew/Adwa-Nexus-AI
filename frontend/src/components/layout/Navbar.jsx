@@ -1,14 +1,8 @@
 ﻿import { useState, useEffect } from 'react';
-import LanguageSelect from '../common/LanguageSelect';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../common/LanguageSelector';
 import { useLanguage } from '../../hooks/useLanguage';
 import './Navbar.css';
-
-const NAV_LINKS = [
-  { label: 'Home',      href: '#home' },
-  { label: 'Museums',   href: '#museums' },
-  { label: 'Artifacts', href: '#artifacts' },
-  { label: 'Routes',    href: '#routes' },
-];
 
 const MountainLogo = () => (
   <svg className="nav-logo__icon" viewBox="0 0 40 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -23,11 +17,8 @@ const MountainLogo = () => (
         <stop offset="100%" stopColor="#C9A453" />
       </linearGradient>
     </defs>
-    {/* Left peak */}
     <path d="M0 34 L14 8 L22 20 L14 34 Z" fill="url(#logoGold2)" opacity="0.85" />
-    {/* Right / main peak */}
     <path d="M14 34 L20 4 L40 34 Z" fill="url(#logoGold)" />
-    {/* Snow cap accent */}
     <path d="M18 12 L20 4 L22 12 Z" fill="rgba(255,255,255,0.50)" />
   </svg>
 );
@@ -50,20 +41,26 @@ const MenuIcon = ({ open }) => (
 );
 
 export default function Navbar() {
-  const [scrolled, setScrolled]     = useState(false);
+  const { t } = useTranslation();
+  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState('Home');
+  const [activeLink, setActiveLink] = useState('home');
 
   const { setLanguage, activeLanguage, languages } = useLanguage();
 
-  /* Scroll handler — adds glass tint after 60 px */
+  const navLinks = [
+    { key: 'home', href: '#home', label: t('nav.home') },
+    { key: 'museums', href: '#museums', label: t('nav.museums') },
+    { key: 'artifacts', href: '#artifacts', label: t('nav.artifacts') },
+    { key: 'routes', href: '#routes', label: t('nav.routes') },
+  ];
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* Lock body scroll when mobile menu is open */
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -73,7 +70,6 @@ export default function Navbar() {
     <header className={`navbar${scrolled ? ' navbar--scrolled' : ''}`} role="banner">
       <div className="navbar__inner">
 
-        {/* ── Logo ── */}
         <a href="#home" className="nav-logo" aria-label="Adwa Nexus — home">
           <MountainLogo />
           <span className="nav-logo__text">
@@ -81,19 +77,17 @@ export default function Navbar() {
           </span>
         </a>
 
-        {/* ── Desktop nav links ── */}
-        {/* Logic stays intact; links stay hidden while the hero fills the viewport */}
         <nav
           className={`nav-links${scrolled ? '' : ' nav-links--hidden'}`}
           aria-label="Primary navigation"
           aria-hidden={!scrolled}
         >
-          {NAV_LINKS.map(({ label, href }) => (
+          {navLinks.map(({ key, label, href }) => (
             <a
-              key={label}
+              key={key}
               href={href}
-              className={`nav-links__item${activeLink === label ? ' nav-links__item--active' : ''}`}
-              onClick={() => setActiveLink(label)}
+              className={`nav-links__item${activeLink === key ? ' nav-links__item--active' : ''}`}
+              onClick={() => setActiveLink(key)}
             >
               {label}
               <span className="nav-links__underline" aria-hidden="true" />
@@ -101,31 +95,28 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* ── Actions ── */}
         <div className="nav-actions">
-          <LanguageSelect />
+          <LanguageSelector />
 
-          {/* Mobile hamburger */}
           <button
             className="nav-hamburger"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-label={mobileOpen ? t('nav.closeMenu') : t('nav.openMenu')}
           >
             <MenuIcon open={mobileOpen} />
           </button>
         </div>
       </div>
 
-      {/* ── Mobile menu overlay ── */}
       <div className={`nav-mobile${mobileOpen ? ' nav-mobile--open' : ''}`} aria-hidden={!mobileOpen}>
         <nav className="nav-mobile__links" aria-label="Mobile navigation">
-          {NAV_LINKS.map(({ label, href }) => (
+          {navLinks.map(({ key, label, href }) => (
             <a
-              key={label}
+              key={key}
               href={href}
-              className={`nav-mobile__item${activeLink === label ? ' nav-mobile__item--active' : ''}`}
-              onClick={() => { setActiveLink(label); setMobileOpen(false); }}
+              className={`nav-mobile__item${activeLink === key ? ' nav-mobile__item--active' : ''}`}
+              onClick={() => { setActiveLink(key); setMobileOpen(false); }}
             >
               {label}
             </a>

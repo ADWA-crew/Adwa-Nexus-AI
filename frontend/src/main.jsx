@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { VisitorProvider } from './context/VisitorContext.jsx'
 import { LanguageProvider } from './context/LanguageContext.jsx'
+import './i18n'
 import './index.css'
 import App from './App.jsx'
 

@@ -9,8 +9,6 @@ export const LANGUAGES = {
 export const LANGUAGE_OPTIONS = [
   { code: 'EN', value: 'en', label: 'English' },
   { code: 'አማ', value: 'am', label: 'አማርኛ' },
-  { code: 'FR', value: 'fr', label: 'Français' },
-  { code: 'DE', value: 'de', label: 'Deutsch' },
 ];
 
 export const THEMES = {

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { aiService, AI_LANGUAGE_OPTIONS } from '../../services/ai.service';
 import './AiGuideCard.css';
 
@@ -21,6 +22,7 @@ function speak(text, language) {
 }
 
 export default function AiGuideCard() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [language, setLanguage] = useState('en');
   const [input, setInput] = useState('');
@@ -30,8 +32,7 @@ export default function AiGuideCard() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content:
-        'Welcome. I am Adwa Guide — ask me about the museum, the Battle of Adwa, artifacts, or planning your visit.',
+      content: t('aiGuide.welcomeMsg'),
     },
   ]);
 
@@ -143,13 +144,13 @@ export default function AiGuideCard() {
                 AG
               </span>
               <div>
-                <p className="ai-guide__eyebrow">Museum Concierge</p>
-                <h2 className="ai-guide__title">Adwa Guide</h2>
+                <p className="ai-guide__eyebrow">{t('aiGuide.concierge')}</p>
+                <h2 className="ai-guide__title">{t('aiGuide.title')}</h2>
               </div>
             </div>
 
             <label className="ai-guide__lang">
-              <span className="ai-guide__lang-label">Language</span>
+              <span className="ai-guide__lang-label">{t('aiGuide.language')}</span>
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
@@ -175,7 +176,7 @@ export default function AiGuideCard() {
             ))}
             {busy && (
               <p className="ai-guide__thinking" aria-live="polite">
-                Composing a reply…
+                {t('aiGuide.thinking')}
               </p>
             )}
           </div>
@@ -197,7 +198,7 @@ export default function AiGuideCard() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about Adwa, artifacts, or your visit…"
+              placeholder={t('aiGuide.placeholder')}
               disabled={busy || listening}
               aria-label="Message Adwa Guide"
             />
@@ -238,8 +239,8 @@ export default function AiGuideCard() {
           {open ? <CloseIcon /> : <GuideIcon />}
         </span>
         <span className="ai-guide__launcher-copy">
-          <strong>{open ? 'Close guide' : 'Adwa Guide'}</strong>
-          <small>{open ? 'Hide conversation' : 'Text & voice · Multilingual'}</small>
+          <strong>{open ? t('aiGuide.closeGuide') : t('aiGuide.title')}</strong>
+          <small>{open ? t('aiGuide.hideConv') : t('aiGuide.textAndVoice')}</small>
         </span>
       </button>
     </div>
