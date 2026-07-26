@@ -51,11 +51,22 @@
   opacity: 0.85;
 }
 
-.nav-logo__icon {
-  width: 36px;
-  height: 30px;
+.nav-logo__img {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1.5px solid rgba(230, 172, 71, 0.65);
+  box-shadow: 0 0 10px rgba(230, 172, 71, 0.35);
   flex-shrink: 0;
-  filter: drop-shadow(0 0 8px rgba(212, 168, 67, 0.40));
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.nav-logo:hover .nav-logo__img {
+  transform: scale(1.08);
+  border-color: #E6AC47;
+  box-shadow: 0 0 14px rgba(230, 172, 71, 0.6);
 }
 
 .nav-logo__text {

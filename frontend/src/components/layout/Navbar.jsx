@@ -2,6 +2,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import LanguageSelect from '../common/LanguageSelect';
 import { useLanguage } from '../../hooks/useLanguage';
+import adwaLogo from '../../assets/images/adwa_logo.png';
 import './Navbar.css';
 
 /* `to` = real page, `href` = in-page anchor until that page is built */
@@ -11,28 +12,6 @@ const NAV_LINKS = [
   { label: 'Artifacts', href: '#artifacts' },
   { label: 'Progress',  to: '/routes' },
 ];
-
-const MountainLogo = () => (
-  <svg className="nav-logo__icon" viewBox="0 0 40 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <defs>
-      <linearGradient id="logoGold" x1="0" y1="34" x2="20" y2="0" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#8B5E14" />
-        <stop offset="60%" stopColor="#D4A843" />
-        <stop offset="100%" stopColor="#F0CC70" />
-      </linearGradient>
-      <linearGradient id="logoGold2" x1="40" y1="34" x2="20" y2="0" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#6B4510" />
-        <stop offset="100%" stopColor="#C9A453" />
-      </linearGradient>
-    </defs>
-    {/* Left peak */}
-    <path d="M0 34 L14 8 L22 20 L14 34 Z" fill="url(#logoGold2)" opacity="0.85" />
-    {/* Right / main peak */}
-    <path d="M14 34 L20 4 L40 34 Z" fill="url(#logoGold)" />
-    {/* Snow cap accent */}
-    <path d="M18 12 L20 4 L22 12 Z" fill="rgba(255,255,255,0.50)" />
-  </svg>
-);
 
 const MenuIcon = ({ open }) => (
   <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -90,7 +69,7 @@ export default function Navbar() {
 
         {/* ── Logo ── */}
         <Link to="/" className="nav-logo" aria-label="Adwa Nexus — home">
-          <MountainLogo />
+          <img src={adwaLogo} alt="Battle of Adwa Logo" className="nav-logo__img" />
           <span className="nav-logo__text">
             Adwa <em>Nexus</em>
           </span>
